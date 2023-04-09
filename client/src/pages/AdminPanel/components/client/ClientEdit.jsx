@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 
-const PostEdit = ({ edit, post }) => {
+const ClientEdit = ({ edit, post }) => {
     const [editPost, setEditPost] = useState({ email: "", password: "", roleId: 1 });
 
     const updatePost = (editPost) =>{
@@ -46,4 +46,4 @@ const PostEdit = ({ edit, post }) => {
     );
 };
 
-export default PostEdit;
+export default ClientEdit;
