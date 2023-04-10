@@ -32,6 +32,15 @@ class CarBrandController {
             return res.json({ message: "OK" })
     }
 
+    async edit(req, res) {
+        const { id, name } = req.body;
+        const body = await CarBody.findOne({ where: { id } });
+        body.set({
+            name: name,
+        })
+        await body.save()
+    }
+
 }
 
 module.exports = new CarBrandController();

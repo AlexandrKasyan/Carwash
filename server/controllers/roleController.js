@@ -16,6 +16,25 @@ class RoleController {
 
         return res.json(roles)
     }
+
+    async edit(req, res) {
+        const { id, role } = req.body;
+        const roleEdit = await Role.findOne({ where: { id } });
+        roleEdit.set({
+          role: role
+        })
+        await roleEdit.save()
+      }
+
+      async remove(req, res) {
+        const { id } = req.body;
+        const role = await Role.destroy({ where: { id } });
+        if (!role)
+            return res.json({ message: "ERROR" })
+        else
+            return res.json({ message: "OK" })
+    }
+
     async getOne(req, res) {
         const { id } = req.query;
         console.log(id)

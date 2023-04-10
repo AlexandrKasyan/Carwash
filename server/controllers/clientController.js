@@ -2,7 +2,7 @@ const { Client } = require('../models/models')
 
 class ClientController {
     async create(req, res) {
-        const { name, phoneNumber, userId } = req.body;
+        const { name, phoneNumber, userId, discountId } = req.body;
         const client = await Client.create({ name, phoneNumber, userId })
         return res.json(client);
     }
@@ -30,6 +30,18 @@ class ClientController {
         else
             return res.json({ message: "OK" })
     }
+
+    async edit(req, res) {
+        const { id, name, phoneNumber, userId, discountId } = req.body;
+        const client = await Client.findOne({ where: { id } });
+        client.set({
+          name: name,
+          phoneNumber: phoneNumber,
+          userId: userId,
+          discountId: discountId
+        })
+        await client.save()
+      }
 
     async removeFromUser(req, res) {
         const { id } = req.body;

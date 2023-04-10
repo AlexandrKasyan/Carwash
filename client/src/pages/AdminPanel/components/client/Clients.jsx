@@ -1,53 +1,56 @@
-import React, { useState, useRef } from "react";
-import PostForm from "./ClientForm";
-import PostList from "./ClientList";
-import PostFilter from "../../Filter";
+import React, { useState } from "react";
+import ClientForm from "./ClientForm";
+import ClientList from "./ClientList";
+import PostFilter from "../Filter";
 import MyModal from "../../../../components/MyModal/MyModal";
-import { usePosts } from "../../../../hooks/usePosts";
-import Pagination from "../../../../components/UI/buttons/pagination/Pagination";
-import PostEdit from "./ClientEdit";
-import { Button } from "react-bootstrap";
-import { create, edit, getUsers, remove } from "../../../../http/userAPI";
+import { usePosts } from "../../../../hooks/useClient";
+import ClientEdit from "./ClientEdit";
+import { Button, Container } from "react-bootstrap";
+import { create, edit, getClients, remove } from "../../../../http/clientAPI";
+import { getPagesCount } from "../../../../utils/pages";
+import Pages from "../../../../components/UI/buttons/pagination/Pages";
+import { observer } from "mobx-react-lite";
+import { NavAdmin } from "../../components/NavAdmin";
 
 
-function Posts() {
-  const [posts, setPosts] = useState([]);
-  const [post, setPost] = useState({});
+
+const Clients = observer(() => {
+  const [clients, setClients] = useState([]);
+  const [client, setClient] = useState({});
   const [filter, setFilter] = useState({ sort: '', query: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
-  const [postTotalPages] = useState(0);
-  const [queryParams, setQueryParams] = useState({ limit: 10, page: 1 });
-  const lastElement = useRef();
-  // const [listNameKeys, setListNameKeys] = useState([]);
-  
-  const createPost = async (newPost) => {
-    await create(newPost.email, newPost.password, newPost.roleId);
-    await getPosts();
+  const [totalPages, setTotalPages] = useState(0);
+  const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+
+
+  const createClient = async (newPost) => {
+    await create(newPost.name, newPost.phoneNumber, newPost.userId, newPost.discountId);
+    await getClientList();
     setModal(false);
   }
 
-  const sortedAndSearchPost = usePosts(posts, filter.sort, filter.query);
+  const sortedAndSearchPost = usePosts(clients, filter.sort, filter.query);
 
   const removePost = async (post) => {
     remove(post.id);
-    await getPosts();
   }
 
-  const getPosts = async () => {
-    const data = await getUsers()
-    setPosts(data.rows)
+  const getClientList = async () => {
+    const data = await getClients(queryParams.limit, queryParams.page)
+    setTotalPages(getPagesCount(data.count, queryParams.limit))
+    setClients(data.rows)
   }
 
-  const view = (state, post) =>{
+  const view = (state, post) => {
     setModalEdit(state)
-    setPost(post) 
+    setClient(post)
   }
 
-  const editPost = (editPost) => {
-    edit(editPost.id, editPost.email, editPost.password, editPost.roleId)
+  const editUser = (editPost) => {
+    edit(editPost.id, editPost.name, editPost.phoneNumber, editPost.userId, editPost.discountId)
     setModalEdit(false)
-    setPost({title: "", body: ""})
+    setClient({ title: "", body: "" })
   }
 
   const changePage = (p) => {
@@ -55,38 +58,36 @@ function Posts() {
   }
 
   return (
-    <div className="App">
-     
-      <Button onClick={() => getPosts()}>Обновить</Button>
-      <Button onClick={() => setModal(true)}>Создать запись</Button>
+    <div className="admin-panel">
+      <NavAdmin />
+      <Container className="admin-content">
+        
+        <Button onClick={() => setModal(true)}>Создать запись</Button>
 
-      <MyModal
-        visible={modal}
-        setVisible={setModal}
-      >
-        <PostForm create={createPost} />
-      </MyModal>
-      <MyModal
-        visible={modalEdit}
-        setVisible={setModalEdit}
-      >
-       <PostEdit edit={editPost} post={post}/>
-      </MyModal>
-      <PostFilter
-        filter={filter}
-        setFilter={setFilter}
-      />
-      <PostList remove={removePost} view={view} posts={sortedAndSearchPost} title="Пользователи" listNameKeys = {[]} />
-      <div ref={lastElement} style={{ height: 20 }}></div>
+        <MyModal
+          visible={modal}
+          setVisible={setModal}
+        >
+          <ClientForm create={createClient} />
+        </MyModal>
 
-      <Pagination
-        postTotalPages={postTotalPages}
-        page={queryParams.page}
-        changePage={changePage}
-      />
-
+        <MyModal
+          visible={modalEdit}
+          setVisible={setModalEdit}
+        >
+          <ClientEdit getClientList={getClientList} edit={editUser} post={client} />
+        </MyModal>
+        <PostFilter
+          filter={filter}
+          setFilter={setFilter}
+        />
+        <ClientList remove={removePost} view={view} posts={sortedAndSearchPost} title="Клиенты" listNameKeys={[]} />
+        <Pages
+          postTotalPages={totalPages} page={queryParams.page} changePage={changePage} getList={getClientList}
+        />
+      </Container>
     </div>
   );
-}
+})
 
-export default Posts;
+export default Clients;

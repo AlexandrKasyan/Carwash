@@ -3,13 +3,12 @@ import { Button, Form } from "react-bootstrap";
 
 
 const PostForm = ({ create }) => {
-    const [post, setPost] = useState({ email: '', password: '', roleId: 1 });
-
+    const [post, setPost] = useState({ email: '', password: '', roleId: 1, carWashId: 1 });
 
     const addNewPost = (e) => {
         e.preventDefault();
         create(post);
-        setPost({ email: '', password: '', roleId: 1 });
+        setPost({ email: '', password: '', roleId: 1, carWashId: 1 });
     }
     return (
         <div>
@@ -31,6 +30,12 @@ const PostForm = ({ create }) => {
                     placeholder="Role"
                     onChange={e => setPost({ ...post, roleId: e.target.value })}
                     value={post.roleId}
+                />
+                <Form.Control
+                    type="text"
+                    placeholder="Автомойка"
+                    onChange={e => setPost({ ...post, carWashId: e.target.value })}
+                    value={post.carWashId}
                 />
                 <Button onClick={addNewPost}>Create</Button>
             </form>

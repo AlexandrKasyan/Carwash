@@ -2,40 +2,47 @@ import React, { useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 
 
-const PostForm = ({ create }) => {
-    const [post, setPost] = useState({ email: '', password: '', roleId: 1 });
+const ClientForm = ({ create }) => {
+    const [post, setPost] = useState({ name: '', phoneNumber: '', userId: '', discountId: '' });
 
 
     const addNewPost = (e) => {
         e.preventDefault();
         create(post);
-        setPost({ email: '', password: '', roleId: 1 });
+        setPost({  name: '', phoneNumber: '', userId: '', discountId: '' });
     }
     return (
         <div>
             <form>
                 <Form.Control
                     type="text"
-                    placeholder="Название"
-                    onChange={e => setPost({ ...post, email: e.target.value })}
-                    value={post.email}
+                    placeholder="Имя"
+                    onChange={e => setPost({ ...post, role: e.target.value })}
+                    value={post.name}
                 />
                 <Form.Control
                     type="text"
-                    placeholder="Описание"
-                    onChange={e => setPost({ ...post, password: e.target.value })}
-                    value={post.password}
+                    placeholder="Номер телефона"
+                    onChange={e => setPost({ ...post, phoneNumber: e.target.value })}
+                    value={post.phoneNumber}
                 />
                 <Form.Control
                     type="text"
-                    placeholder="Role"
-                    onChange={e => setPost({ ...post, roleId: e.target.value })}
-                    value={post.roleId}
+                    placeholder="Пользователь"
+                    onChange={e => setPost({ ...post, userId: e.target.value })}
+                    value={post.userId}
                 />
+                <Form.Control
+                    type="text"
+                    placeholder="Скидка"
+                    onChange={e => setPost({ ...post, discountId: e.target.value })}
+                    value={post.discountId}
+                />
+
                 <Button onClick={addNewPost}>Create</Button>
             </form>
         </div>
     );
 };
 
-export default PostForm;
+export default ClientForm;

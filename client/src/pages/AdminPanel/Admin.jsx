@@ -1,12 +1,13 @@
 import React from "react";
-import { Container } from "react-bootstrap";
-import Users from "./components/user/Users";
+import { NavAdmin } from "./components/NavAdmin";
 
 const Admin = () => {
-    return(
-        <Container>
-            <Users/>
-        </Container>
+    return (
+        <div className="admin-panel" >
+            <NavAdmin ></NavAdmin>
+            <div className="admin-content"></div>
+        </div>
+
     );
 };
 

@@ -14,7 +14,7 @@ class StatusController {
         let offset = page * limit - limit;
         statuses = await Status.findAndCountAll({ limit, offset })
 
-        return res.json(carModels)
+        return res.json(statuses)
     }
     async getOne(req, res) {
         const { id } = req.query;
@@ -32,6 +32,15 @@ class StatusController {
             return res.json({ message: "OK" })
     }
 
+    
+    async edit(req, res) {
+        const { id, name } = req.body;
+        const status = await Status.findOne({ where: { id } });
+        status.set({
+            name: name
+        })
+        await status.save()
+    }
 }
 
 module.exports = new StatusController();

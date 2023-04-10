@@ -31,6 +31,18 @@ class WashServiceController {
             return res.json({ message: "OK" })
     }
 
+    async edit(req, res) {
+        const { id, name, description, cost} = req.body;
+        const washService = await WashService.findOne({ where: { id } });
+        washService.set({
+            name: name,
+            description: description,
+            cost: cost,
+
+        })
+        await washService.save()
+    }
+
 }
 
 module.exports = new WashServiceController();

@@ -2,8 +2,8 @@ const { CarWash } = require('../models/models')
 
 class CarModelController {
     async create(req, res) {
-        const { name } = req.body;
-        const carWash = await CarWash.create({ name })
+        const { name, address, number } = req.body;
+        const carWash = await CarWash.create({ name, address, number })
         return res.json(carWash);
     }
     
@@ -22,6 +22,17 @@ class CarModelController {
         const carWash = await CarWash.findOne({ where: { id } });
         return res.json(carWash)
     }
+
+    async edit(req, res) {
+        const { id, name, number, address } = req.body;
+        const carWash = await CarWash.findOne({ where: { id } });
+        carWash.set({
+          name: name,
+          number: number,
+          address: address,
+        })
+        await carWash.save()
+      }
 
     async remove(req, res) {
         const { id } = req.body;

@@ -2,45 +2,48 @@ import React, { useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 
 const ClientEdit = ({ edit, post }) => {
-    const [editPost, setEditPost] = useState({ email: "", password: "", roleId: 1 });
-
-    const updatePost = (editPost) =>{
+    const [editPost, setEditPost] = useState({  name: '', phoneNumber: '', userId: '', discountId: '' });
+    
+    const updatePost = (editPost) => {
         const ePost = {
             id: post.id,
-            email: editPost.email,
-            password: editPost.password,
-            roleId: editPost.roleId
+            name: editPost.name,
+            phoneNumber: editPost.phoneNumber,
+            userId: editPost.userId,
+            discountId: editPost.discountId
         }
         edit(ePost)
     }
 
     return (
         <div>
-
             <Form.Control
                 type="text"
-                className="mt-3"
-                placeholder="email"
-                onChange={e => setEditPost({ ...editPost, email: e.target.value })}
-                value={editPost.email}
+                placeholder="Имя"
+                onChange={e => setEditPost({ ...editPost, role: e.target.value })}
+                value={editPost.name}
             />
             <Form.Control
                 type="text"
-                placeholder="password"
-                className="mt-3"
-                onChange={e => setEditPost({ ...editPost, password: e.target.value })}
-                value={editPost.password}
+                placeholder="Номер телефона"
+                onChange={e => setEditPost({ ...editPost, phoneNumber: e.target.value })}
+                value={editPost.phoneNumber}
             />
             <Form.Control
                 type="text"
-                placeholder="RoleID"
-                className="mt-3"
-                onChange={e => setEditPost({ ...editPost, roleId: e.target.value })}
-                value={editPost.roleId}
+                placeholder="Пользователь"
+                onChange={e => setEditPost({ ...editPost, userId: e.target.value })}
+                value={editPost.userId}
+            />
+            <Form.Control
+                type="text"
+                placeholder="Скидка"
+                onChange={e => setEditPost({ ...editPost, discountId: e.target.value })}
+                value={editPost.discountId}
             />
             <Button onClick={() => {
                 updatePost(editPost);
-                setEditPost({ email: "", password: "", roleId: 1});
+                setEditPost({  name: '', phoneNumber: '', userId: '', discountId: ''});
             }}>Обновить</Button>
         </div>
     );

@@ -1,15 +1,16 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import PostForm from "./UserForm";
-import PostList from "./UsersList";
+import UserList from "./UsersList";
 import PostFilter from "../Filter";
 import MyModal from "../../../../components/MyModal/MyModal";
 import { usePosts } from "../../../../hooks/usePosts";
 import PostEdit from "./UserEdit";
-import { Button } from "react-bootstrap";
+import { Button, Container, Container as div } from "react-bootstrap";
 import { create, edit, getUsers, remove } from "../../../../http/userAPI";
 import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
+import { NavAdmin } from "../../components/NavAdmin";
 
 
 const Users = observer(() => {
@@ -21,9 +22,9 @@ const Users = observer(() => {
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
 
-  
+
   const createUser = async (newPost) => {
-    await create(newPost.email, newPost.password, newPost.roleId);
+    await create(newPost.email, newPost.password, newPost.roleId, newPost.carWashId);
     await getUserList();
     setModal(false);
   }
@@ -32,7 +33,6 @@ const Users = observer(() => {
 
   const removePost = async (post) => {
     remove(post.id);
-    await getUserList();
   }
 
   const getUserList = async () => {
@@ -41,50 +41,48 @@ const Users = observer(() => {
     setUsers(data.rows)
   }
 
-  const view = (state, post) =>{
+  const view = (state, post) => {
     setModalEdit(state)
-    setUser(post) 
+    setUser(post)
   }
 
   const editUser = (editPost) => {
-    edit(editPost.id, editPost.email, editPost.password, editPost.roleId)
+    edit(editPost.id, editPost.email, editPost.password, editPost.roleId, editPost.carWashId)
     setModalEdit(false)
-    setUser({title: "", body: ""})
   }
 
   const changePage = (p) => {
     setQueryParams({ ...queryParams, page: p })
-    getUserList()
   }
 
   return (
-    <div className="App">
-     
-      <Button onClick={() => getUserList()}>Обновить</Button>
-      <Button onClick={() => setModal(true)}>Создать запись</Button>
+    <div className="admin-panel">
+      <NavAdmin  />
+      <Container className="admin-content" >
+        <Button onClick={() => setModal(true)}>Создать запись</Button>
 
-      <MyModal
-        visible={modal}
-        setVisible={setModal}
-      >
-        <PostForm create={createUser} />
-      </MyModal>
-      <MyModal
-        visible={modalEdit}
-        setVisible={setModalEdit}
-      >
-       <PostEdit edit={editUser} post={user}/>
-      </MyModal>
-      <PostFilter
-        filter={filter}
-        setFilter={setFilter}
-      />
-      <PostList remove={removePost} view={view} posts={sortedAndSearchPost} title="Пользователи" listNameKeys = {[]} />
-      
+        <MyModal
+          visible={modal}
+          setVisible={setModal}
+        >
+          <PostForm create={createUser} />
+        </MyModal>
 
-      <Pages
-        postTotalPages={totalPages} page = {queryParams.page} changePage = {changePage}
-      />
+        <MyModal
+          visible={modalEdit}
+          setVisible={setModalEdit}
+        >
+          <PostEdit edit={editUser} post={user} />
+        </MyModal>
+        <PostFilter
+          filter={filter}
+          setFilter={setFilter}
+        />
+        <UserList remove={removePost} view={view} posts={sortedAndSearchPost} title="Пользователи" listNameKeys={[]} />
+        <Pages
+          postTotalPages={totalPages} page={queryParams.page} changePage={changePage} getList={getUserList}
+        />
+      </Container>
     </div>
   );
 })

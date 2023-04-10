@@ -1,11 +1,19 @@
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { getPagesArray } from '../../../../utils/pages';
 
 
-const Pages = ({postTotalPages, page, changePage}) => {
+const Pages = observer( ({postTotalPages, page, changePage, getList}) => {
     let pagesArray = getPagesArray(postTotalPages)
-    
+
+    useEffect(() => {
+        getList()
+      }, [page])
+
+    if(pagesArray.length<=1){
+        return (<div></div>)
+    }
     return (
         <div >
             {pagesArray.map(p =>
@@ -19,6 +27,6 @@ const Pages = ({postTotalPages, page, changePage}) => {
             )}
         </div>
     );
-};
+})
 
 export default Pages;

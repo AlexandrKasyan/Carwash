@@ -30,6 +30,16 @@ class OrderServiceRelationsController {
         else
             return res.json({ message: "OK" })
     }
+    
+    async edit(req, res) {
+        const { id, washServiceId, orderId} = req.body;
+        const orderServiceRelation = await OrderServiceRelations.findOne({ where: { id } });
+        orderServiceRelation.set({
+            washServiceId: washServiceId,
+            orderId: orderId
+        })
+        await orderServiceRelation.save()
+    }
 
 }
 

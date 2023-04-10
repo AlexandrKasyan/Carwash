@@ -8,7 +8,7 @@ class PostController {
     }
 
     async getAll(req, res) {
-        let {page, limit} = req.query
+        let { page, limit } = req.query
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
@@ -31,6 +31,15 @@ class PostController {
             return res.json({ message: "OK" })
     }
 
+    async edit(req, res) {
+        const { id, name, duties } = req.body;
+        const post = await Post.findOne({ where: { id } });
+        post.set({
+            name: name,
+            duties: duties
+        })
+        await post.save()
+    }
 }
 
 module.exports = new PostController();

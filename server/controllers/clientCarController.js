@@ -14,10 +14,10 @@ class ClientController {
         let offset = page * limit - limit;
         let cars;
         if (!clientId ) {
-            cars = await Device.findAndCountAll({ limit, offset })
+            cars = await ClientCar.findAndCountAll({ limit, offset })
         }
         if (clientId) {
-            cars = await Device.findAndCountAll({ where: { clientId }, limit, offset })
+            cars = await ClientCar.findAndCountAll({ where: { clientId }, limit, offset })
         }
 
         return res.json(cars)
@@ -39,6 +39,15 @@ class ClientController {
           return res.json({ message: "OK" })
       }
 
+      async edit(req, res) {
+        const { id, clientId, carId} = req.body;
+        const clientCar = await ClientCar.findOne({ where: { id } });
+        clientCar.set({
+            clientId: clientId,
+            carId: carId
+        })
+        await clientCar.save()
+    }
 }
 
 module.exports = new ClientController();

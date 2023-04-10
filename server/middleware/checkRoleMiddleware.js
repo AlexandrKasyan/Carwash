@@ -12,7 +12,7 @@ module.exports = function (role) {
             }
 
             const decoded = jwt.verify(token, process.env.SECRET_KEY)
-            if(decoded.role !== role){
+            if(decoded.role !== role && decoded.role !== 'ADMIN'){
                 return res.status(403).json({ massage: "Нет доступа" })
             }
 

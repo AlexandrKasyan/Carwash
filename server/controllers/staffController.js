@@ -31,6 +31,18 @@ class StaffController {
             return res.json({ message: "OK" })
     }
 
+    async edit(req, res) {
+        const { id, name, phoneNumber, position, userId, postId } = req.body;
+        const staff = await Staff.findOne({ where: { id } });
+        staff.set({
+            name: name,
+            phoneNumber: phoneNumber,
+            position: position,
+            userId: userId,
+            postId: postId
+        })
+        await staff.save()
+    }
 }
 
 module.exports = new StaffController();

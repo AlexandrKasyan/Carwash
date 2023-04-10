@@ -31,6 +31,18 @@ class DiscountController {
             return res.json({ message: "OK" })
     }
 
+    async edit(req, res) {
+        const { id, name, discountPercentage, numberVisits} = req.body;
+        const discount = await Discount.findOne({ where: { id } });
+        discount.set({
+            name: name,
+            discountPercentage: discountPercentage,
+            numberVisits: numberVisits,
+
+        })
+        await discount.save()
+    }
+
 }
 
 module.exports = new DiscountController();

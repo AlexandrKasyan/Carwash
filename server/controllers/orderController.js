@@ -31,6 +31,18 @@ class OrderController {
             return res.json({ message: "OK" })
     }
 
+    async edit(req, res) {
+        const { id, dateTime, generalPrice, statusId, clientId} = req.body;
+        const order = await Order.findOne({ where: { id } });
+        order.set({
+            dateTime: dateTime,
+            generalPrice: generalPrice,
+            statusId: statusId,
+            dateTime: dateTime,
+            clientId: clientId
+        })
+        await order.save()
+    }
 }
 
 module.exports = new OrderController();

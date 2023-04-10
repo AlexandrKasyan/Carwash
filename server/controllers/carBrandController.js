@@ -14,7 +14,7 @@ class CarBrandController {
         let offset = page * limit - limit;
         carBrands = await CarBrand.findAndCountAll({ limit, offset })
 
-        return res.json(carModels)
+        return res.json(carBrands)
     }
     async getOne(req, res) {
         const { id } = req.query;
@@ -30,6 +30,15 @@ class CarBrandController {
             return res.json({ message: "ERROR" })
         else
             return res.json({ message: "OK" })
+    }
+
+    async edit(req, res) {
+        const { id, name } = req.body;
+        const carBrand = await CarBrand.findOne({ where: { id } });
+        carBrand.set({
+            name: name
+        })
+        await carBrand.save()
     }
 
 }

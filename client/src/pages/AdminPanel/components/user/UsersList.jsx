@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from "react-bootstrap";
 import MyModal from '../../../../components/MyModal/MyModal';
 
-const PostList = ({ posts, title, remove, view }) => {
+const UserList = ({ posts, title, remove, view }) => {
     const [modal, setModal] = useState(false);
     const [user, setUser] = useState({});
 
@@ -20,11 +20,15 @@ const PostList = ({ posts, title, remove, view }) => {
                     <p>Id: {user.id}</p>
                     <p>Email: {user.email}</p>
                     <p>Пароль: {user.password}</p>
+                    <p>Роль: {user.roleId}</p>
+                    <p>Автомойка: {user.carWashId}</p>
                     <p>Создано: {user.createdAt}</p>
                     <p>Обновлено: {user.updatedAt}</p>
-                    <p>Роль: {user.roleId}</p>
 
-                    <Button onClick={() => remove(user)}>Удалить</Button>
+                    <Button onClick={() => {
+                        remove(user)
+                        setModal(false)
+                        }}>Удалить</Button>
                     <Button onClick={() => {
                         view(true, user)
                         setModal(false)
@@ -60,4 +64,4 @@ const PostList = ({ posts, title, remove, view }) => {
     );
 };
 
-export default PostList;
+export default UserList;

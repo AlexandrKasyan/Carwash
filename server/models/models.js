@@ -90,6 +90,12 @@ const OrderServiceRelations = sequelize.define('order_service_relations', {
 Role.hasMany(User)
 User.belongsTo(Role)
 
+Discount.hasMany(Client)
+Client.belongsTo(Discount)
+
+CarWash.hasMany(User)
+User.belongsTo(CarWash)
+
 User.hasOne(Client)
 Client.belongsTo(User)
 
