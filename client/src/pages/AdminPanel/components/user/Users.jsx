@@ -7,6 +7,8 @@ import { usePosts } from "../../../../hooks/usePosts";
 import PostEdit from "./UserEdit";
 import { Button, Container, Container as div } from "react-bootstrap";
 import { create, edit, getUsers, remove } from "../../../../http/userAPI";
+import { getRoles } from "../../../../http/roleAPI";
+import { getCarWashes } from "../../../../http/carWashAPI";
 import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
@@ -15,6 +17,8 @@ import { NavAdmin } from "../../components/NavAdmin";
 
 const Users = observer(() => {
   const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState([]);
+  const [washes, setWashes] = useState([]);
   const [user, setUser] = useState({});
   const [filter, setFilter] = useState({ sort: '', query: '' });
   const [modal, setModal] = useState(false);
@@ -38,17 +42,31 @@ const Users = observer(() => {
   const getUserList = async () => {
     const data = await getUsers(queryParams.limit, queryParams.page)
     setTotalPages(getPagesCount(data.count, queryParams.limit))
+    await getRolesList();
+    await getWashesList();
     setUsers(data.rows)
   }
+
+  const getRolesList = async () => {
+    const data = await getRoles()
+    setRoles(data.rows)
+  }
+
+  const getWashesList = async () => {
+    const data = await getCarWashes();
+    setWashes(data.rows)
+  }
+
 
   const view = (state, post) => {
     setModalEdit(state)
     setUser(post)
   }
 
-  const editUser = (editPost) => {
+  const editUser = async (editPost) => {
     edit(editPost.id, editPost.email, editPost.password, editPost.roleId, editPost.carWashId)
     setModalEdit(false)
+    getUserList();
   }
 
   const changePage = (p) => {
@@ -65,20 +83,20 @@ const Users = observer(() => {
           visible={modal}
           setVisible={setModal}
         >
-          <PostForm create={createUser} />
+          <PostForm create={createUser} washes={washes} roles={roles} />
         </MyModal>
 
         <MyModal
           visible={modalEdit}
           setVisible={setModalEdit}
         >
-          <PostEdit edit={editUser} post={user} />
+          <PostEdit edit={editUser} post={user} roles={roles} washes={washes}/>
         </MyModal>
         <PostFilter
           filter={filter}
           setFilter={setFilter}
         />
-        <UserList remove={removePost} view={view} posts={sortedAndSearchPost} title="Пользователи" listNameKeys={[]} />
+        <UserList remove={removePost} washes={washes} roles={roles} view={view} posts={sortedAndSearchPost} title="Пользователи" listNameKeys={[]} />
         <Pages
           postTotalPages={totalPages} page={queryParams.page} changePage={changePage} getList={getUserList}
         />

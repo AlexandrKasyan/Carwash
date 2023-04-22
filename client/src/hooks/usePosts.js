@@ -1,3 +1,4 @@
+//хук для сортировки 
 import { useMemo } from "react";
 
 export const useSortedPosts = (posts, sort) => {

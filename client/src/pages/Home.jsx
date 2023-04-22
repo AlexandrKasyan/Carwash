@@ -1,9 +1,11 @@
 import React from "react";
 
 const Home = () => {
-    return(
+
+
+    return (
         <div>
-            HOME1
+
         </div>
     );
 };

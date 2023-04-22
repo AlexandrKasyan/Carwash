@@ -12,10 +12,15 @@ const App = observer(() => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    check().then(data => {
-      user.setUser(true)
+    async function fetchData() {
+      const data = await check()
+      if (!data)
+        return
+      user.setUser(data)
       user.setIsAuth(true)
-    }).finally(() => setLoading(false))
+    }
+    fetchData()
+    setLoading(false)
   }, [])
 
   if (loading) {

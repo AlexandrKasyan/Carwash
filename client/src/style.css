@@ -30,7 +30,13 @@ tr:active{
 .admin-content{
     padding: 1em;
     display: flex;
-    background-color: rgb(189, 189, 189);
+    background-color: rgb(230, 230, 230);
     flex-direction: column;
     width: 80%;
+}
+
+.user-info{
+    display: flex;
+    flex-direction: column;
+
 }

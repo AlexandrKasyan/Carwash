@@ -10,7 +10,7 @@ class RoleController {
     async getAll(req, res) {
         let roles, page, limit;
         page = page || 1;
-        limit = limit || 9;
+        limit = limit || 100;
         let offset = page * limit - limit;
         roles = await Role.findAndCountAll({ limit, offset })
 

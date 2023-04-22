@@ -1,3 +1,4 @@
+//Контроллер для работы с таблицей пользователя
 const ApiError = require('../error/apiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -9,11 +10,11 @@ const generateJwt = (id, email, role, carWashId) => {
     process.env.SECRET_KEY,
     { expiresIn: '24h' }
   )
-}
+}//Функция генерации JWT токена для авторизации пользователя
 
 class UserController {
   async registration(req, res) {
-    let { email, password, roleId, carWashId } = req.body;
+    let { email, password, roleId, carWashId } = req.body; //получение данных из тела запроса
     roleId = roleId || 2;
     carWashId = carWashId || 1;
     if (!email || !password) {
@@ -24,9 +25,8 @@ class UserController {
       return next(ApiError.badRequest('Этот email уже используется'))
     }
 
-    const hashPassword = await bcrypt.hash(password, 5)
-
-    const user = await User.create({ email, password: hashPassword, roleId, carWashId })
+    const hashPassword = await bcrypt.hash(password, 5)//хеширование пароля
+    const user = await User.create({ email, password: hashPassword, roleId, carWashId })//Создание ползователя
     const { role } = await Role.findOne({ where: { id: roleId } });
     const token = generateJwt(user.id, user.email, role, user.carWashId)
     return res.json({ token })
@@ -43,12 +43,12 @@ class UserController {
       return next(ApiError.badRequest("Не корректно введен пароль"))
     }
     const token = generateJwt(user.id, user.email, role, user.carWashId)
-    console.log(role)
     return res.json({ token })
   }
 
   async check(req, res, next) {
     const { id, email, role, carWashId } = req.user
+    console.log(role)
     const token = generateJwt(id, email, role, carWashId)
     res.json({ token });
   }
@@ -61,10 +61,17 @@ class UserController {
     let offset = page * limit - limit;
     users = await User.findAndCountAll({ limit, offset })
     return res.json(users)
-  }
+  }//получение списка всех пользователей
   async getOne(req, res) {
     const { id } = req.query;
     const user = await User.findOne({ where: { id } });
+    return res.json(user)
+  }//получение оного пользователя
+
+  async account(req, res) {
+    const token  =  req.headers.authorization.split(' ')[1]
+    const decode = jwt.verify(token, process.env.SECRET_KEY);
+    const user = await User.findOne({ where: { id: decode.id } });
     return res.json(user)
   }
 
@@ -79,7 +86,7 @@ class UserController {
       carWashId: carWashId
     })
     await user.save()
-  }
+  }// изменение данных пользователя
 
   async remove(req, res) {
     const { id } = req.body;
@@ -103,7 +110,7 @@ class UserController {
     const hashPassword = await bcrypt.hash(password, 5)
     const user = await User.create({ email, password: hashPassword, roleId, carWashId })
     return res.json({user})
-  }
+  }//создание пользователя администратором
 }
 
 

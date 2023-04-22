@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 
-const PostEdit = ({ edit, post }) => {
-    const [editPost, setEditPost] = useState({ email: "", password: "", roleId: 1, carWashId: 1 });
+const PostEdit = ({ edit, post, roles, washes }) => {
+    const [editPost, setEditPost] = useState({ email: '', password: "", roleId: 2, carWashId: 1 });
 
-    const updatePost = (editPost) =>{
+    const updatePost = (editPost) => {
         const ePost = {
             id: post.id,
             email: editPost.email,
@@ -31,23 +31,32 @@ const PostEdit = ({ edit, post }) => {
                 onChange={e => setEditPost({ ...editPost, password: e.target.value })}
                 value={editPost.password}
             />
-            <Form.Control
-                type="text"
-                placeholder={"RoleID"}
-                className="mt-3"
+
+            <Form.Select name="Role"
                 onChange={e => setEditPost({ ...editPost, roleId: e.target.value })}
-                value={editPost.roleId}
-            />
-            <Form.Control
-                type="text"
-                placeholder={"CarWashId"}
-                className="mt-3"
+                value={editPost.roleId}>
+                {roles.map(role =>
+                    <option
+                        key={role.id}
+                        value={role.id}>
+                        {role.role}
+                    </option>
+                )}
+            </Form.Select>
+            <Form.Select name="Wahes"
                 onChange={e => setEditPost({ ...editPost, carWashId: e.target.value })}
-                value={editPost.carWashId}
-            />
+                value={editPost.carWashId}>
+                {washes.map(wash =>
+                    <option
+                        key={wash.id}
+                        value={wash.id}>
+                        {wash.name}
+                    </option>
+                )}
+            </Form.Select>
             <Button onClick={() => {
                 updatePost(editPost);
-                setEditPost({ email: "", password: "", roleId: 1, carWashId: 1});
+                setEditPost({ email: "", password: "", roleId: '', carWashId: '' });
             }}>Обновить</Button>
         </div>
     );

@@ -2,35 +2,52 @@ import React, { useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 
 
-const PostForm = ({ create }) => {
-    const [post, setPost] = useState({ email: '', password: '', roleId: 1, carWashId: 1 });
+const PostForm = ({ create, roles, washes }) => {
+    const [post, setPost] = useState({ email: '', password: '', roleId: 2, carWashId: 1 });
 
     const addNewPost = (e) => {
         e.preventDefault();
         create(post);
-        setPost({ email: '', password: '', roleId: 1, carWashId: 1 });
+        setPost({ email: '', password: '', roleId: '', carWashId: '' });
     }
+
     return (
         <div>
             <form>
                 <Form.Control
                     type="text"
-                    placeholder="Название"
+                    placeholder="email"
                     onChange={e => setPost({ ...post, email: e.target.value })}
                     value={post.email}
                 />
                 <Form.Control
                     type="text"
-                    placeholder="Описание"
+                    placeholder="Пароль"
                     onChange={e => setPost({ ...post, password: e.target.value })}
                     value={post.password}
                 />
-                <Form.Control
-                    type="text"
-                    placeholder="Role"
+                <Form.Select name="Role"
                     onChange={e => setPost({ ...post, roleId: e.target.value })}
-                    value={post.roleId}
-                />
+                    value={post.roleId}>
+                    {roles.map(role =>
+                        <option
+                            key={role.id}
+                            value={role.id}>
+                            {role.role}
+                        </option>
+                    )}
+                </Form.Select>
+                <Form.Select name="Wahes"
+                    onChange={e => setPost({ ...post, carWashId: e.target.value })}
+                    value={post.carWashId}>
+                    {washes.map(wash =>
+                        <option
+                            key={wash.id}
+                            value={wash.id}>
+                            {wash.name}
+                        </option>
+                    )}
+                </Form.Select>
                 <Form.Control
                     type="text"
                     placeholder="Автомойка"

@@ -12,6 +12,15 @@ export const getCarWashes = async (limit, page) => {
     return data
 }
 
+export const getCarWash = async (id) => {
+    const {data} = await  $authHost.get('api/carwash/getOne', {
+        params:{
+            id: id
+        }
+    })
+    return data
+}
+
 export const remove = async (id) => {
     await  $authHost.post('api/carwash/remove', {id})
 }

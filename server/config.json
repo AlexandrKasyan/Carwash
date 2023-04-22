@@ -1,0 +1,13 @@
+{
+    "dialect": "postgres",
+    "host": "localhost",
+    "port": 6000,
+    "database": "carwash",
+    "username": "postgres",
+    "password": "0000",
+    "models": [
+      "C:/Users/Alexandr/Desktop/frontend/react/Carwash/server/models/models.js"
+    ],
+    "output": "C:/Users/Alexandr/Desktop/frontend/react/Carwash/server/models/models.png"
+  }
+  

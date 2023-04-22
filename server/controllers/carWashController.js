@@ -18,7 +18,6 @@ class CarModelController {
     }
     async getOne(req, res) {
         const { id } = req.query;
-        console.log(id)
         const carWash = await CarWash.findOne({ where: { id } });
         return res.json(carWash)
     }

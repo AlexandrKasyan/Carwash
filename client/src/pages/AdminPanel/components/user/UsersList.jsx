@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from "react-bootstrap";
 import MyModal from '../../../../components/MyModal/MyModal';
 
-const UserList = ({ posts, title, remove, view }) => {
+const UserList = ({ posts, title, remove, view, roles, washes }) => {
     const [modal, setModal] = useState(false);
     const [user, setUser] = useState({});
 
@@ -20,15 +20,15 @@ const UserList = ({ posts, title, remove, view }) => {
                     <p>Id: {user.id}</p>
                     <p>Email: {user.email}</p>
                     <p>Пароль: {user.password}</p>
-                    <p>Роль: {user.roleId}</p>
-                    <p>Автомойка: {user.carWashId}</p>
+                    <p>Роль: {roles.map((role) => user.roleId === role.id? `${role.role}`:'' )}</p>
+                    <p>Автомойка: {washes.map((wash) => user.carWashId === wash.id? `${wash.name}`:'' )}</p>
                     <p>Создано: {user.createdAt}</p>
                     <p>Обновлено: {user.updatedAt}</p>
-
+                    {console.log(user)}
                     <Button onClick={() => {
                         remove(user)
                         setModal(false)
-                        }}>Удалить</Button>
+                    }}>Удалить</Button>
                     <Button onClick={() => {
                         view(true, user)
                         setModal(false)
@@ -55,7 +55,7 @@ const UserList = ({ posts, title, remove, view }) => {
                                 key={post.id}>
                                 <td>{post.id}.</td>
                                 <td>{post.email}</td>
-                                <td>{post.roleId}</td>
+                                <td>{roles.map((role) => role.id === post.roleId ? `${role.role}` : "")}</td>
                             </tr>
                         )}
                 </tbody>
