@@ -18,11 +18,11 @@ class UserController {
     roleId = roleId || 2;
     carWashId = carWashId || 1;
     if (!email || !password) {
-      return next(ApiError.badRequest('Не корректно введен email или пароль'))
+      return ApiError.badRequest('Не корректно введен email или пароль')
     }
     const candidate = await User.findOne({ where: { email } })
     if (candidate) {
-      return next(ApiError.badRequest('Этот email уже используется'))
+      return ApiError.badRequest('Этот email уже используется')
     }
 
     const hashPassword = await bcrypt.hash(password, 5)//хеширование пароля
@@ -35,12 +35,12 @@ class UserController {
     const { email, password } = req.body;
     const user = await User.findOne({ where: { email } })
     if (!user) {
-      return next(ApiError.badRequest('email не верно указан'))
+      return ApiError.badRequest('email не верно указан')
     }
     const { role } = await Role.findOne({ where: { id: user.roleId } });
     let comparePassword = bcrypt.compareSync(password, user.password)
     if (!comparePassword) {
-      return next(ApiError.badRequest("Не корректно введен пароль"))
+      return ApiError.badRequest("Не корректно введен пароль")
     }
     const token = generateJwt(user.id, user.email, role, user.carWashId)
     return res.json({ token })
@@ -86,7 +86,31 @@ class UserController {
       carWashId: carWashId
     })
     await user.save()
-  }// изменение данных пользователя
+  }// изменение данных администратором
+
+  async editByUserEmail(req, res) {
+    const { id, email} = req.body;
+    const user = await User.findOne({ where: { id } });
+    const candidate = await User.findOne({ where: { email } })
+    if (candidate) {
+      return ApiError.badRequest('Этот email уже используется')
+    }
+    user.set({
+      ...user,
+      email: email
+    })
+    await user.save()
+  }// изменение данных пользователем
+
+  async editByUserCarWash(req, res) {
+    const { id, carWashId} = req.body;
+    const user = await User.findOne({ where: { id } });
+    user.set({
+      ...user,
+      carWashId: carWashId
+    })
+    await user.save()
+  }// изменение данных пользователем
 
   async remove(req, res) {
     const { id } = req.body;
@@ -101,11 +125,11 @@ class UserController {
     let { email, password, roleId, carWashId } = req.body;
 
     if (!email || !password) {
-      return next(ApiError.badRequest('Не корректно введен email или пароль'))
+      return ApiError.badRequest('Не корректно введен email или пароль')
     }
     const candidate = await User.findOne({ where: { email } })
     if (candidate) {
-      return next(ApiError.badRequest('Этот email уже используется'))
+      return ApiError.badRequest('Этот email уже используется')
     }
     const hashPassword = await bcrypt.hash(password, 5)
     const user = await User.create({ email, password: hashPassword, roleId, carWashId })

@@ -1,6 +1,7 @@
 export const ADMIN_ROUTE = '/admin'
 export const LOGIN_ROUTE = '/login'
 export const ACCOUNT = '/account'
+export const CLIENT_INFO = '/account/client_info'
 export const REGISTRATION_ROUTE = '/registration'
 export const HOME_ROUTE = '/home'
 export const ADMIN_PANEL_USERS = '/admin/users'

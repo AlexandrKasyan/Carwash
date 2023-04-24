@@ -3,7 +3,7 @@ import { $authHost, $host } from ".";
 import jwt_decode from "jwt-decode";
 
 export const registration = async (email, password) => {
-    const { data } = await $host.post('api/user/registration', { email, password, roleId: 2 })
+    const { data } = await $host.post('api/user/registration', { email, password, roleId: 2, carWashId: 1 })
     localStorage.setItem('token', data.token)//сохранение токена в локальное хранилище браузера
     return jwt_decode(data.token)
 }
@@ -48,9 +48,19 @@ export const remove = async (id) => {
 }
 
 export const create = async (email, password, roleId, carWashId) => {
+    carWashId = carWashId || 1;
     await $authHost.post('api/user/create', { email, password, roleId, carWashId })
 }
 
 export const edit = async (id, email, password, roleId, carWashId) => {
+    carWashId = carWashId || 1;
     await $authHost.post('api/user/edit', { id, email, password, roleId, carWashId })
+}
+
+export const editByUserEmail = async (id, email) => {
+    await $authHost.post('api/user/editByUserEmail', { id, email})
+}
+
+export const editByUserCarWash = async (id, carWashId) => {
+    await $authHost.post('api/user/editByUserCarWash', { id, carWashId})
 }

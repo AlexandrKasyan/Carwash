@@ -16,7 +16,7 @@ class DiscountController {
 
         return res.json(discounts)
     }
-    async getOne(req, res) {
+    async getDiscount(req, res) {
         const { id } = req.query;
         const discount = await Discount.findOne({ where: { id } });
         return res.json(discount)

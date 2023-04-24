@@ -18,25 +18,18 @@ export const NavBar = observer(() => {
                 <NavLink style={{ color: 'white' }} to={HOME_ROUTE}>CarWash</NavLink>
                 {
                     user.isAuth ?
-                        <Nav className="ms-auto" style={{ color: 'white' }}>
-                            <Button
-                                variant={'outline-light'}
-                                onClick={() => {
-                                    navigate(ACCOUNT)
-                                }}
-                            >{user.user.email}
-                            </Button>
+                        <Nav>
                             {
                                 user.user.role === "ADMIN" ?
                                     <Button
                                         variant={'outline-light'}
                                         onClick={() => navigate(ADMIN_ROUTE)}
-                                        className="ms-2" >
+                                        className="ms-5 ms-auto" >
                                         Админ панель
                                     </Button>
                                     : <div></div>
                             }
-
+                            <NavLink className="ms-4  user-email-nav"  to={ACCOUNT}> <div className="user-email-nav-first-s">{user.user.email[0]}</div> <div className="user-email-nav-full">{user.user.email}</div></NavLink>
                         </Nav>
                         :
                         <Nav className="ms-auto" style={{ color: 'white' }}>

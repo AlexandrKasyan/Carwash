@@ -36,7 +36,8 @@ const Users = observer(() => {
   const sortedAndSearchPost = usePosts(users, filter.sort, filter.query);
 
   const removePost = async (post) => {
-    remove(post.id);
+    await remove(post.id);
+    await getUserList();
   }
 
   const getUserList = async () => {

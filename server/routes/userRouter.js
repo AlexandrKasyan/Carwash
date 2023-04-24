@@ -13,5 +13,7 @@ router.get('/getone', checkRole('ADMIN'), userController.getOne)
 router.post('/remove', checkRole('ADMIN'), userController.remove)
 router.post('/create', checkRole('ADMIN'), userController.create)
 router.post('/edit', checkRole('ADMIN'), userController.edit)
+router.post('/editByUserEmail', checkRole('USER'), userController.editByUserEmail)
+router.post('/editByUserCarWash', checkRole('USER'), userController.editByUserCarWash)
 
 module.exports = router

@@ -1,6 +1,6 @@
 import Admin from "./pages/AdminPanel/Admin";
 import React from "react";
-import { ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, ADMIN_PANEL_USERS, ADMIN_PANEL_CLIENTS, ADMIN_PANEL_CARWASHES, ADMIN_PANEL_ROLE, ADMIN_PANEL_DISCOUNT, ADMIN_PANEL_POST, ADMIN_PANEL_STAFF, ADMIN_PANEL_BODY, ADMIN_PANEL_BRAND, ADMIN_PANEL_CAR, ADMIN_PANEL_CLIENT_CAR, ADMIN_PANEL_STATUS, ADMIN_PANEL_ORDER, ADMIN_PANEL_WASH_SERVECE, ADMIN_PANEL_ORDER_SERVICE_RELATION, ACCOUNT } from "./utils/const";
+import { ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, ADMIN_PANEL_USERS, ADMIN_PANEL_CLIENTS, ADMIN_PANEL_CARWASHES, ADMIN_PANEL_ROLE, ADMIN_PANEL_DISCOUNT, ADMIN_PANEL_POST, ADMIN_PANEL_STAFF, ADMIN_PANEL_BODY, ADMIN_PANEL_BRAND, ADMIN_PANEL_CAR, ADMIN_PANEL_CLIENT_CAR, ADMIN_PANEL_STATUS, ADMIN_PANEL_ORDER, ADMIN_PANEL_WASH_SERVECE, ADMIN_PANEL_ORDER_SERVICE_RELATION, ACCOUNT, CLIENT_INFO } from "./utils/const";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import Users from "./pages/AdminPanel/components/user/Users";
@@ -18,7 +18,8 @@ import Status from "./pages/AdminPanel/components/status/Status";
 import Order from "./pages/AdminPanel/components/order/Order";
 import WashService from "./pages/AdminPanel/components/washService/WashService";
 import OrderServiceRelation from "./pages/AdminPanel/components/orderServiceRelation/OrderServiceRelation";
-import Account from "./pages/Account";
+import Account from "./pages/PersonalAccount/Account";
+import ClientForm from "./pages/PersonalAccount/ClientForm";
 
 
 export const authRoutes = [
@@ -29,6 +30,10 @@ export const authRoutes = [
     {
         path: ACCOUNT,
         Component: <Account/>
+    },
+    {
+        path: CLIENT_INFO,
+        Component: <ClientForm/>
     },
     {
         path: ADMIN_PANEL_USERS,

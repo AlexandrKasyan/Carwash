@@ -16,7 +16,8 @@ module.exports = function (req, res, next){
         next();
     }
     catch(e){
-        res.status(401).json({massage: "Не авторизован"})
+        res.status(402).json({massage: "Не авторизован"})
+        console.log(e)
     }
         
 }

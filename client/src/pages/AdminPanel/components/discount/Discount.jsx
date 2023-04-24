@@ -33,7 +33,8 @@ const Discount = observer(() => {
   const sortedAndSearchPost = usePosts(discounts, filter.sort, filter.query);
 
   const removePost = async (post) => {
-    remove(post.id);
+    await remove(post.id);
+    await getDiscountList();
   }
 
   const getDiscountList = async () => {

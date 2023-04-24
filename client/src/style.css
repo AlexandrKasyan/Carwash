@@ -38,5 +38,55 @@ tr:active{
 .user-info{
     display: flex;
     flex-direction: column;
+}
 
+.user-email-nav{
+    color: white;
+    text-decoration: none;
+    display: flex;
+    border-radius: 2rem;
+    height: 2.4em;
+    padding: 0.2em;
+}
+
+.user-email-nav:hover{
+    color: white;
+    text-decoration: none;
+    background-color: rgb(136, 136, 136);
+}
+
+.user-email-nav:active{
+    color: white;
+    text-decoration: none;
+    background-color: rgb(99, 99, 99);
+}
+
+.user-email-nav-first-s{
+    margin-right: 1em;
+    padding: 0.1em 0 0 0.65em;
+    background-color: rgb(131, 131, 131);
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 2rem;
+    width: 2em;
+    height: 2em;
+}
+
+.user-email-nav-full{
+    padding: 0.15em 1em 0 0;
+}
+
+.client-form{
+    padding: 1em;
+    margin-top: 2em;
+    width: 40%;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 1em;
+}
+.user-info-spiner{
+    width: 10rem;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 10rem;
 }

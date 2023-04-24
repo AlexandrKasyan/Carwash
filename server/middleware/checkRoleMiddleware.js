@@ -7,6 +7,7 @@ module.exports = function (role) {
         }
         try {
             const token = req.headers.authorization.split(' ')[1]
+
             if (!token) {
                 return res.status(401).json({ massage: "Не авторизован" })
             }
@@ -20,7 +21,7 @@ module.exports = function (role) {
             next();
         }
         catch (e) {
-            res.status(401).json({ massage: "Не авторизован" })
+            res.status(402).json({ massage: "Не авторизован ошибка дерьма" })
         }
 
     }

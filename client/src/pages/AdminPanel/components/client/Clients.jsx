@@ -33,7 +33,8 @@ const Clients = observer(() => {
   const sortedAndSearchPost = usePosts(clients, filter.sort, filter.query);
 
   const removePost = async (post) => {
-    remove(post.id);
+    await remove(post.id);
+    await getClientList();
   }
 
   const getClientList = async () => {

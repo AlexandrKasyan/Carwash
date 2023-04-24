@@ -3,7 +3,7 @@ const { Client } = require('../models/models')
 class ClientController {
     async create(req, res) {
         const { name, phoneNumber, userId, discountId } = req.body;
-        const client = await Client.create({ name, phoneNumber, userId })
+        const client = await Client.create({ name, phoneNumber, userId, discountId })
         return res.json(client);
     }
     async getAll(req, res) {
@@ -35,13 +35,40 @@ class ClientController {
         const { id, name, phoneNumber, userId, discountId } = req.body;
         const client = await Client.findOne({ where: { id } });
         client.set({
-          name: name,
-          phoneNumber: phoneNumber,
-          userId: userId,
-          discountId: discountId
+            name: name,
+            phoneNumber: phoneNumber,
+            userId: userId,
+            discountId: discountId
         })
         await client.save()
-      }
+    }
+
+    async changeName(req, res) {
+        const { id, name } = req.body;
+        const client = await Client.findOne({ where: { id } });
+        client.set({
+            ...client,
+            name: name
+        })
+        await client.save()
+    }
+
+    async changePhone(req, res) {
+        const { id, phoneNumber } = req.body;
+        const client = await Client.findOne({ where: { id } });
+        console.log(client)
+        client.set({
+            ...client,
+            phoneNumber: phoneNumber
+        })
+        await client.save()
+    }
+
+    async getClientInfoByUserId(req, res) {
+        const { id } = req.query;
+        const client = await Client.findOne({ where: { userId: id } });
+        return res.json(client)
+    }
 
     async removeFromUser(req, res) {
         const { id } = req.body;
