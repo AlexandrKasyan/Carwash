@@ -5,7 +5,7 @@ import PostFilter from "../Filter";
 import MyModal from "../../../../components/MyModal/MyModal";
 import { usePosts } from "../../../../hooks/usePosts";
 import PostEdit from "./UserEdit";
-import { Button, Container, Container as div } from "react-bootstrap";
+import { Button, Container} from "react-bootstrap";
 import { create, edit, getUsers, remove } from "../../../../http/userAPI";
 import { getRoles } from "../../../../http/roleAPI";
 import { getCarWashes } from "../../../../http/carWashAPI";

@@ -23,12 +23,13 @@ const Body = observer(() => {
 
   const createBody = async (newPost) => {
     await create(newPost.name);
-    await getBodies();
+    await getBodyList();
     setModal(false);
   }
 
   const removeBody = async (post) => {
     remove(post.id);
+    await getBodyList();
   }
 
   const getBodyList = async () => {

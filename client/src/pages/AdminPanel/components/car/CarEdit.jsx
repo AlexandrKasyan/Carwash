@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 
-const CarWashEdit = ({ edit, post, getClientList }) => {
+const CarEdit = ({ edit, post, getClientList }) => {
     const [editPost, setEditPost] = useState({ number: '', yearRelease: '', bodyId: '', carBrandId: ''});
     
     const updatePost = (editPost) => {
@@ -55,4 +55,4 @@ const CarWashEdit = ({ edit, post, getClientList }) => {
     );
 };
 
-export default CarWashEdit;
+export default CarEdit;

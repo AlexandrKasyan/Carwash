@@ -9,7 +9,7 @@ const Pages = observer( ({postTotalPages, page, changePage, getList}) => {
 
     useEffect(() => {
         getList()
-      }, [page])
+      }, [page])// eslint-disable-line react-hooks/exhaustive-deps
 
     if(pagesArray.length<=1){
         return (<div></div>)

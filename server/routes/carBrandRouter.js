@@ -5,7 +5,7 @@ const checkRole = require('../middleware/checkRoleMiddleware')
 
 router.post('/create', /*checkRole('ADMIN'),*/ carBrandController.create)
 router.get('/', carBrandController.getAll)
-router.get('/getone', carBrandController.getOne)
+router.get('/getBrand', carBrandController.getOne)
 router.post('/remove', checkRole('ADMIN'), carBrandController.remove)
 router.post('/edit', checkRole('ADMIN'), carBrandController.edit)
 

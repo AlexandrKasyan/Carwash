@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from "react-bootstrap";
 import MyModal from '../../../../components/MyModal/MyModal';
 
-const CarWashList = ({ posts, title, remove, view }) => {
+const CarList = ({ posts, title, remove, view }) => {
     const [modal, setModal] = useState(false);
     const [сar, setCar] = useState({});
 
@@ -65,4 +65,4 @@ const CarWashList = ({ posts, title, remove, view }) => {
     );
 };
 
-export default CarWashList;
+export default CarList;

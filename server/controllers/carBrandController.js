@@ -19,6 +19,7 @@ class CarBrandController {
     async getOne(req, res) {
         const { id } = req.query;
         console.log(id)
+
         const carBrand = await CarBrand.findOne({ where: { id } });
         return res.json(carBrand)
     }

@@ -8,7 +8,15 @@ export const getBrands = async (limit, page) => {
             page: page
         }
     })
-    console.log(data)
+    return data
+}
+
+export const getBrand = async (id) => {
+    const {data} = await  $authHost.get('api/carBrand/getBrand', {
+        params:{
+            id: id
+        }
+    })
     return data
 }
 

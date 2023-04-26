@@ -6,11 +6,16 @@ import { editByUserCarWash, editByUserEmail, getMyAccount } from '../../http/use
 import { changeNameByUser, changePhoneByUser, getClientInfoByUserId } from '../../http/clientAPI'
 import ClientForm from './ClientForm'
 import MyModal from '../../components/MyModal/MyModal'
-import ChangeEmail from './ChangeEmail'
-import ChangeName from './ChangeName'
-import ChangePhone from './ChangePhone'
 import { getDiscount } from '../../http/discountAPI'
-import ChangeCarWash from './ChangeCarWash'
+import ChangeEmail from './components/Change/ChangeEmail'
+import ChangeCarWash from './components/Change/ChangeCarWash'
+import ChangeName from './components/Change/ChangeName'
+import ChangePhone from './components/Change/ChangePhone'
+import './components/account.css'
+import PersonalClientCar from './components/PersonalClientCar'
+import { AiFillCar, AiFillPhone, AiOutlineMail, AiOutlineUser } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
+
 
 const Account = () => {
     const { user } = useContext(Context)
@@ -117,52 +122,82 @@ const Account = () => {
                 <div>
                     {
                         clientInfo.name ?
-                            <div>
-                                <h3>Ваш личный кабинет</h3>
-                                <div className='user-info'>
-                                    <li>
-                                        Email: {userInfo.email}
-                                        <MyModal
-                                            visible={modalForEmail}
-                                            setVisible={setModalForEmail}
-                                        >
-                                            <ChangeEmail changeEmail={changeEmail} />
-                                        </MyModal>
-                                        <Button onClick={() => setModalForEmail(true)}>Изменить</Button>
-                                    </li>
-                                    <li>Дата регистрации: {userInfo.createdAt}</li>
-                                    <li>Выбранная автомойка: {carWash.name}
-                                        <MyModal
-                                            visible={modalForCarWash}
-                                            setVisible={setModalForCarWash}
-                                        >
-                                            <ChangeCarWash changeWash={changeWash} washes={washes} />
-                                        </MyModal>
-                                        <Button onClick={() => setModalForCarWash(true)}>Изменить</Button>
-                                    </li>
-                                    <li>Имя: {clientInfo.name}
-                                        <MyModal
-                                            visible={modalForName}
-                                            setVisible={setModalForName}
-                                        >
-                                            <ChangeName changeName={changeName} />
-                                        </MyModal>
-                                        <Button onClick={() => setModalForName(true)}>Изменить</Button>
-                                    </li>
-                                    <li>Ваш номер телефона: {clientInfo.phoneNumber}
-                                        <MyModal
-                                            visible={modalForPhone}
-                                            setVisible={setModalForPhone}
-                                        >
-                                            <ChangePhone changePhone={changePhone} />
-                                        </MyModal>
-                                        <Button onClick={() => setModalForPhone(true)}>Изменить</Button>
-                                    </li>
-                                    <li>Ваша скидка: {discountInfo.name} Процент скидки: {discountInfo.discountPercentage}</li>
+                            <div >
+                                <h3 style={{ textAlign: 'center' }}>Ваш личный кабинет</h3>
+                                <div className='account'>
+                                    <div className='user-info'>
+                                        <div className='user-info-row'  >
+                                            <AiOutlineUser />
+                                            {clientInfo.name}
+                                            <MyModal
+                                                visible={modalForName}
+                                                setVisible={setModalForName}
+                                            >
+                                                <ChangeName changeName={changeName} />
+                                            </MyModal>
+                                            <BiEdit
+                                                className='edit-ico'
+                                                onClick={() => setModalForName(true)}
+                                            ></BiEdit>
+                                        </div>
+                                        <div className='user-info-row'>
+                                            <AiFillPhone />
+                                            {clientInfo.phoneNumber}
+                                            <MyModal
+                                                visible={modalForPhone}
+                                                setVisible={setModalForPhone}
+                                            >
+                                                <ChangePhone changePhone={changePhone} />
+                                            </MyModal>
+                                            <BiEdit onClick={() => setModalForPhone(true)}>Изменить</BiEdit>
+                                        </div>
+                                        <div className='user-info-row'>
+                                            Автомойка: {carWash.name}
+                                            <MyModal
+                                                visible={modalForCarWash}
+                                                setVisible={setModalForCarWash}
+                                            >
+                                                <ChangeCarWash changeWash={changeWash} washes={washes} />
+                                            </MyModal>
+                                            <BiEdit onClick={() => setModalForCarWash(true)}>Изменить</BiEdit>
+                                        </div>
+                                        <div className='user-info-row'>
+                                            <AiOutlineMail />
+                                            {userInfo.email}
+                                            <MyModal
+                                                visible={modalForEmail}
+                                                setVisible={setModalForEmail}
+                                            >
+                                                <ChangeEmail changeEmail={changeEmail} />
+                                            </MyModal>
+                                            <BiEdit onClick={() => setModalForEmail(true)}>Изменить</BiEdit>
+                                        </div>
+                                        <div className='user-info-row'>
+                                            Дата регистрации: {userInfo.createdAt.slice(0, 10)}
+                                        </div>
+                                    </div>
+                                    <div className='user-account-discount'>
+                                        <div className="name-discount">
+                                            Ваша скидка: {discountInfo.name}
+                                        </div>
+                                        <div className="discount-precentage">
+                                            Процент скидки: {discountInfo.discountPercentage}
+                                        </div>
+                                        <div className="number-visits">
+                                            Количество посещений: {discountInfo.numberVisits}
+                                        </div>
+                                    </div>
+
+                                    <div className='user-account-car'>
+                                        <h4><AiFillCar></AiFillCar> Автомобили </h4>
+                                        <PersonalClientCar
+                                            clientId={clientInfo.id}
+                                        />
+                                    </div>
                                 </div>
-
-
                             </div>
+
+
 
                             :
                             <div>

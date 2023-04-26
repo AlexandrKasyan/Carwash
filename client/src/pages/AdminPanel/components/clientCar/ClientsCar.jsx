@@ -4,7 +4,7 @@ import ClientCarList from "./ClientCarList";
 import MyModal from "../../../../components/MyModal/MyModal";
 import ClientCarEdit from "./ClientCarEdit";
 import { Button, Container } from "react-bootstrap";
-import { create, edit, getClientCars, remove } from "../../../../http/clientCarAPI";
+import { create, edit, getClientsCars, remove } from "../../../../http/clientCarAPI";
 import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
@@ -33,7 +33,7 @@ const ClientCar = observer(() => {
   }
 
   const getClientCarList = async () => {
-    const data = await getClientCars(queryParams.limit, queryParams.page)
+    const data = await getClientsCars(queryParams.limit, queryParams.page)
     setTotalPages(getPagesCount(data.count, queryParams.limit))
     setClientCars(data.rows)
   }

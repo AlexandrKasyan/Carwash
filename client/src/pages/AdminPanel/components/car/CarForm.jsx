@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form } from "react-bootstrap";
 
 
-const CarWashForm = ({ create }) => {
+const CarForm = ({ create }) => {
     const [post, setPost] = useState({ number: '', yearRelease: '', bodyId: '', carBrandId: '' });
 
 
@@ -14,17 +14,17 @@ const CarWashForm = ({ create }) => {
     return (
         <div>
             <form>
-                Номер
+                Номер автомобиля
                 <Form.Control
                     type="text"
                     placeholder="Номер"
                     onChange={e => setPost({ ...post, number: e.target.value })}
                     value={post.number}
                 />
-               Год выпуска
+               Год выпуска автомобиля
                 <Form.Control
                     type="text"
-                    placeholder="Номер телефона"
+                    placeholder="Год выпуска"
                     onChange={e => setPost({ ...post, yearRelease: e.target.value })}
                     value={post.yearRelease}
                 />
@@ -49,4 +49,4 @@ const CarWashForm = ({ create }) => {
     );
 };
 
-export default CarWashForm;
+export default CarForm;

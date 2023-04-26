@@ -56,7 +56,6 @@ class ClientController {
     async changePhone(req, res) {
         const { id, phoneNumber } = req.body;
         const client = await Client.findOne({ where: { id } });
-        console.log(client)
         client.set({
             ...client,
             phoneNumber: phoneNumber

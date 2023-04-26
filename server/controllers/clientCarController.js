@@ -13,7 +13,7 @@ class ClientController {
         limit = limit || 9;
         let offset = page * limit - limit;
         let cars;
-        if (!clientId ) {
+        if (!clientId) {
             cars = await ClientCar.findAndCountAll({ limit, offset })
         }
         if (clientId) {
@@ -30,17 +30,35 @@ class ClientController {
         return res.json(clientCar)
     }
 
+    async getClientCars(req, res) {
+        const { clientId } = req.query;
+        const clientCars = await ClientCar.findAll({ where: { clientId: clientId } });
+        return res.json(clientCars)
+    }
+
+
     async remove(req, res) {
         const { id } = req.body;
         const clientCar = await ClientCar.destroy({ where: { id } });
         if (!clientCar)
-          return res.json({ message: "ERROR" })
+            return res.json({ message: "ERROR" })
         else
-          return res.json({ message: "OK" })
-      }
+            return res.json({ message: "OK" })
+    }
 
-      async edit(req, res) {
-        const { id, clientId, carId} = req.body;
+    async removeByCarId(req, res) {
+        const { id } = req.body;
+        const clientCar = await ClientCar.destroy({ where: { carId: id } });
+        console.log(clientCar)
+        if (!clientCar)
+            return res.json({ message: "ERROR" })
+        else
+            return res.json({ message: "OK" })
+    }
+
+
+    async edit(req, res) {
+        const { id, clientId, carId } = req.body;
         const clientCar = await ClientCar.findOne({ where: { id } });
         clientCar.set({
             clientId: clientId,
