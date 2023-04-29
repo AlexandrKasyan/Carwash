@@ -1,0 +1,50 @@
+.service-box{
+    margin: 2rem;
+    width: 30rem;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(223, 223, 223);
+    border-radius: 0.3em;
+    box-shadow: 0.00rem 0.1rem rgb(99, 99, 99), -0.5em 0 .4em rgb(233, 233, 233);
+}
+.service-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.service-name{
+    text-align: center;
+    padding: 0.5rem ;
+    font-size:larger;
+    font-weight: 600;
+}
+
+.service-cost{
+    padding: 0 0.5rem 1rem 1rem ;
+    font-weight: 600;
+}
+
+.service-img{
+    width: 100%;
+    background-color: rgb(196, 196, 196);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    font-size: large;
+    font-weight: 600;
+    border-bottom: 1px solid rgb(223, 223, 223);
+}
+
+.service-img:hover .service-description{
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+.service-description{
+    opacity: 0;
+    height: 20rem;
+    padding: 1rem;
+    font-family: 'Segoe UI';
+    color: #fff;
+    transition: .2s ease;
+}

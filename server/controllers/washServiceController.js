@@ -1,14 +1,24 @@
 const { WashService } = require('../models/models')
+const { v4 } = require('uuid')
+const { resolve } = require('path')
+const ApiError = require('../error/apiError')
 
 class WashServiceController {
-    async create(req, res) {
-        const { name, description, cost } = req.body;
-        const washService = await WashService.create({ name, description, cost })
-        return res.json(washService);
+    async create(req, res, next) {
+        try {
+            const { name, description, cost } = req.body;
+            const { img } = req.files;
+            let fileName = v4() + ".jpg"
+            img.mv(resolve(__dirname, '..', 'static', fileName))
+            const washService = await WashService.create({ name, description, cost, img: fileName })
+            return res.json(washService);
+        } catch (error) {
+            next(ApiError.badRequest(error.message))
+        }
     }
 
     async getAll(req, res) {
-        let {page, limit} = req.query
+        let { page, limit } = req.query
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
@@ -31,18 +41,27 @@ class WashServiceController {
             return res.json({ message: "OK" })
     }
 
-    async edit(req, res) {
-        const { id, name, description, cost} = req.body;
-        const washService = await WashService.findOne({ where: { id } });
-        washService.set({
-            name: name,
-            description: description,
-            cost: cost,
+    async edit(req, res, next) {
+        try {
+            const { id, name, description, cost } = req.body;
+            const { img } = req.files;
+            let fileName = v4() + ".jpg"
+            img.mv(resolve(__dirname, '..', 'static', fileName))
 
-        })
-        await washService.save()
+            const washService = await WashService.findOne({ where: { id } })
+            washService.set({
+                id: id,
+                name: name,
+                description: description,
+                cost: cost,
+                img: fileName
+            })
+            await washService.save()
+            return res.json(washService);
+        } catch (error) {
+            next(ApiError.badRequest(error.message))
+        }
     }
-
 }
 
 module.exports = new WashServiceController();

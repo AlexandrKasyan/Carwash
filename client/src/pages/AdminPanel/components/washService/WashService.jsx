@@ -22,7 +22,7 @@ const WashService = observer(() => {
 
 
   const createPost = async (newPost) => {
-    await create(newPost.name, newPost.description, newPost.cost);
+    await create(newPost);
     await getList();
     setModal(false);
   }
@@ -44,9 +44,8 @@ const WashService = observer(() => {
   }
 
   const editPost = async (editPost) => {
-    console.log(editPost)
     setModalEdit(false)
-    await edit(editPost.id, editPost.name, editPost.description, editPost.cost)
+    await edit(editPost)
     await getList();
   }
 

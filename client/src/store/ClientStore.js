@@ -3,14 +3,22 @@ import { makeAutoObservable } from 'mobx';
 export default class ClientStore {
     constructor() {
         this._client = {};
+        this._clientCars = [];
         makeAutoObservable(this);
     }
 
-    setUser(client) {
+    setClient(client) {
         this._client = client;
     }
 
-    get user (){
+    setClientCars(clientCars){
+        this._clientCars = clientCars;
+    }
+
+    get client() {
         return this._client;
+    }
+    get clientCars(){
+        return this._clientCars;
     }
 }

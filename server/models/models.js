@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize')
 
 const User = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    email: { type: DataTypes.STRING, unique: true, },
+    email: { type: DataTypes.STRING, unique: true },
     password: { type: DataTypes.STRING },
 })//Описание таблицы пользователя
 
@@ -16,7 +16,7 @@ const Role = sequelize.define('role', {
 const Client = sequelize.define('client', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
-    phoneNumber: { type: DataTypes.STRING, allowNull: false },
+    phoneNumber: { type: DataTypes.STRING, allowNull: false, unique: true },
 })//Описание таблицы клиента
 
 const CarWash = sequelize.define('car_wash', {
@@ -48,7 +48,15 @@ const WashService = sequelize.define('wash_service', {
     name: { type: DataTypes.STRING, allowNull: false },//название услуги
     description: { type: DataTypes.STRING },
     cost: { type: DataTypes.DOUBLE, allowNull: false },
-})//Описание таблицы услуг 
+    img: { type: DataTypes.STRING, allowNull: false }
+    
+})
+
+const WashServiceType = sequelize.define('wash_service_type', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false, unique: true},//тип услуги
+
+})//Описание таблицы типов услуг 
 
 const Car = sequelize.define('car', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -125,6 +133,12 @@ Order.belongsTo(Status)
 Client.hasMany(Order)
 Order.belongsTo(Client)
 
+Car.hasMany(Order)
+Order.belongsTo(Car)
+
+WashServiceType.hasMany(WashService)
+WashService.belongsTo(WashServiceType)
+
 WashService.belongsToMany(Order, { through: OrderServiceRelations })
 Order.belongsToMany(WashService, { through: OrderServiceRelations })
 
@@ -144,7 +158,8 @@ module.exports = {
     Staff,
     Status,
     User,
-    WashService
+    WashService,
+    WashServiceType
 }
 
 

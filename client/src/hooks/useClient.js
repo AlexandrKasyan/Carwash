@@ -21,3 +21,4 @@ export const usePosts = (posts, sort, query) =>{
     
     return sortedAndSearchPost;
 }
+

@@ -3,15 +3,20 @@ import { Button, Form } from "react-bootstrap";
 
 const WashServiceEdit = ({ edit, post }) => {
     const [editPost, setEditPost] = useState({ name: '', description: '', cost: '' });
-    
+    const [file, setFile] = useState(null)
+
     const updatePost = (editPost) => {
-        const ePost = {
-            id: post.id,
-            name: editPost.name,
-            description: editPost.description,
-            cost: editPost.cost
-        }
-        edit(ePost)
+        const formData = new FormData()
+        formData.append('id', post.id)
+        formData.append('name', editPost.name)
+        formData.append('description', editPost.description)
+        formData.append('cost', editPost.cost)
+        formData.append('img', file)
+        edit(formData)
+    }
+
+    const selectFile = e => {
+        setFile(e.target.files[0])
     }
 
     return (
@@ -37,11 +42,17 @@ const WashServiceEdit = ({ edit, post }) => {
                 onChange={e => setEditPost({ ...editPost, cost: e.target.value })}
                 value={editPost.cost}
             />
-           
+
+            Фото
+            <Form.Control
+                type="file"
+                onChange={selectFile}
+            />
+
 
             <Button onClick={() => {
                 updatePost(editPost);
-                setEditPost({name: '', description: '', cost: ''});
+                setEditPost({ name: '', description: '', cost: '' });
             }}>Обновить</Button>
         </div>
     );

@@ -1,0 +1,13 @@
+.link-page{
+    color: white;
+    text-decoration: none;
+}
+
+.link-page:hover{
+    color: rgb(231, 231, 231);
+}
+
+.link-home{
+    color: white;
+    text-decoration: none;
+}

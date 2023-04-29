@@ -64,3 +64,7 @@ export const editByUserEmail = async (id, email) => {
 export const editByUserCarWash = async (id, carWashId) => {
     await $authHost.post('api/user/editByUserCarWash', { id, carWashId})
 }
+
+export const editByUserPassword = async (id, newPassword, lastPassword) => {
+    await $authHost.post('api/user/editPassword', { id, newPassword, lastPassword})
+}

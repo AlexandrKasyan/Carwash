@@ -112,6 +112,23 @@ class UserController {
     await user.save()
   }// изменение данных пользователем
 
+    async editByUserPassword(req, res) {
+    const { id, newPassword, lastPassword} = req.body;
+    const user = await User.findOne({ where: { id } });
+    let comparePassword = bcrypt.compareSync(lastPassword, user.password)
+    if (!comparePassword) {
+      return ApiError.badRequest("Не корректно введен пароль")
+    }
+    const hashPassword = await bcrypt.hash(newPassword, 5)//хеширование пароля
+
+    user.set({
+      ...user,
+      password: hashPassword
+    })
+    await user.save()
+    return res.json("Пароль успешно изменён")
+  }
+
   async remove(req, res) {
     const { id } = req.body;
     const user = await User.destroy({ where: { id } });
@@ -135,6 +152,8 @@ class UserController {
     const user = await User.create({ email, password: hashPassword, roleId, carWashId })
     return res.json({user})
   }//создание пользователя администратором
+
+  
 }
 
 

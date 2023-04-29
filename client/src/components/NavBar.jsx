@@ -2,11 +2,12 @@ import React, { useContext } from 'react'
 import { Context } from '..'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { ACCOUNT, ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE } from '../utils/const';
+import { ACCOUNT, ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE, WASH_SERVECE } from '../utils/const';
 import { Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { observer } from 'mobx-react-lite';
 import { NavLink, useNavigate } from 'react-router-dom'
+import './styleNavBar.css'
 
 export const NavBar = observer(() => {
     const { user } = useContext(Context)
@@ -15,7 +16,8 @@ export const NavBar = observer(() => {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <NavLink style={{ color: 'white' }} to={HOME_ROUTE}>CarWash</NavLink>
+                <NavLink className='link-page' to={HOME_ROUTE}>CarWash</NavLink>
+                <NavLink className='link-page' to={WASH_SERVECE}>Услуги</NavLink>
                 {
                     user.isAuth ?
                         <Nav>

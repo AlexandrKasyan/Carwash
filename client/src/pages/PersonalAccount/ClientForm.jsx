@@ -29,6 +29,7 @@ const ClientForm = observer(({ userId, addName }) => {
 
   return (
     <div className='client-form'>
+      <h3 className='mt-3'>Дополните информацию о Вас</h3>
       Ваше имя
       <Form.Control
         type="text"
@@ -65,7 +66,6 @@ const ClientForm = observer(({ userId, addName }) => {
       >
         Сохранить
       </Button>
-
     </div>
   )
 })

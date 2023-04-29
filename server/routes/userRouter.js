@@ -15,5 +15,6 @@ router.post('/create', checkRole('ADMIN'), userController.create)
 router.post('/edit', checkRole('ADMIN'), userController.edit)
 router.post('/editByUserEmail', checkRole('USER'), userController.editByUserEmail)
 router.post('/editByUserCarWash', checkRole('USER'), userController.editByUserCarWash)
+router.post('/editPassword', checkRole('USER'), userController.editByUserPassword)
 
 module.exports = router
