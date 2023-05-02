@@ -9,7 +9,6 @@ const SelectServiceButton = ({ service }) => {
         let services = selectedServices.selectedServices
         services.push(selectService)
         selectedServices.setSelectedServices(services)
-        console.log(services)
     }
 
 

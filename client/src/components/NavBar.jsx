@@ -16,8 +16,10 @@ export const NavBar = observer(() => {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
+
                 <NavLink className='link-page' to={HOME_ROUTE}>CarWash</NavLink>
                 <NavLink className='link-page' to={WASH_SERVECE}>Услуги</NavLink>
+                
                 {
                     user.isAuth ?
                         <Nav>
@@ -38,6 +40,7 @@ export const NavBar = observer(() => {
                             <Button variant={'outline-light'} onClick={() => navigate(LOGIN_ROUTE)}>Аторизация</Button>
                         </Nav>
                 }
+                
 
             </Container>
         </Navbar>

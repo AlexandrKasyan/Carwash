@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { User, Role } = require('../models/models')
 
-const generateJwt = (id, email, role, carWashId) => {
+const generateJwt = (id, email, role, carWashId, createdAt) => {
   return jwt.sign(
-    { id, email, role, carWashId },
+    { id, email, role, carWashId, createdAt },
     process.env.SECRET_KEY,
     { expiresIn: '24h' }
   )
@@ -28,7 +28,7 @@ class UserController {
     const hashPassword = await bcrypt.hash(password, 5)//хеширование пароля
     const user = await User.create({ email, password: hashPassword, roleId, carWashId })//Создание ползователя
     const { role } = await Role.findOne({ where: { id: roleId } });
-    const token = generateJwt(user.id, user.email, role, user.carWashId)
+    const token = generateJwt(user.id, user.email, role, user.carWashId, user.createdAt)
     return res.json({ token })
   }
   async login(req, res, next) {
@@ -42,14 +42,13 @@ class UserController {
     if (!comparePassword) {
       return ApiError.badRequest("Не корректно введен пароль")
     }
-    const token = generateJwt(user.id, user.email, role, user.carWashId)
+    const token = generateJwt(user.id, user.email, role, user.carWashId, user.createdAt)
     return res.json({ token })
   }
 
   async check(req, res, next) {
-    const { id, email, role, carWashId } = req.user
-    console.log(role)
-    const token = generateJwt(id, email, role, carWashId)
+    const { id, email, role, carWashId, createdAt } = req.user
+    const token = generateJwt(id, email, role, carWashId, createdAt)
     res.json({ token });
   }
 

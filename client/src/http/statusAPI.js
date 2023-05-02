@@ -8,7 +8,6 @@ export const getStatuses = async (limit, page) => {
             page: page
         }
     })
-    console.log(data)
     return data
 }
 

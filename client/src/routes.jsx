@@ -1,6 +1,6 @@
 import Admin from "./pages/AdminPanel/Admin";
 import React from "react";
-import { ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, ADMIN_PANEL_USERS, ADMIN_PANEL_CLIENTS, ADMIN_PANEL_CARWASHES, ADMIN_PANEL_ROLE, ADMIN_PANEL_DISCOUNT, ADMIN_PANEL_POST, ADMIN_PANEL_STAFF, ADMIN_PANEL_BODY, ADMIN_PANEL_BRAND, ADMIN_PANEL_CAR, ADMIN_PANEL_CLIENT_CAR, ADMIN_PANEL_STATUS, ADMIN_PANEL_ORDER, ADMIN_PANEL_WASH_SERVECE, ADMIN_PANEL_ORDER_SERVICE_RELATION, ACCOUNT, CLIENT_INFO, WASH_SERVECE } from "./utils/const";
+import { ADMIN_ROUTE, HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, ADMIN_PANEL_USERS, ADMIN_PANEL_CLIENTS, ADMIN_PANEL_CARWASHES, ADMIN_PANEL_ROLE, ADMIN_PANEL_DISCOUNT, ADMIN_PANEL_POST, ADMIN_PANEL_STAFF, ADMIN_PANEL_BODY, ADMIN_PANEL_BRAND, ADMIN_PANEL_CAR, ADMIN_PANEL_CLIENT_CAR, ADMIN_PANEL_STATUS, ADMIN_PANEL_ORDER, ADMIN_PANEL_WASH_SERVECE, ADMIN_PANEL_ORDER_SERVICE_RELATION, ACCOUNT, CLIENT_INFO, WASH_SERVECE, ACCOUNT_CARS, ACCOUNT_BASKET, ACCOUNT_ORDERS } from "./utils/const";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import Users from "./pages/AdminPanel/components/user/Users";
@@ -19,8 +19,11 @@ import Order from "./pages/AdminPanel/components/order/Order";
 import WashService from "./pages/AdminPanel/components/washService/WashService";
 import OrderServiceRelation from "./pages/AdminPanel/components/orderServiceRelation/OrderServiceRelation";
 import Account from "./pages/PersonalAccount/Account";
-import ClientForm from "./pages/PersonalAccount/ClientForm";
+import ClientForm from "./pages/PersonalAccount/components/ClientForm";
 import Services from "./pages/Services/Services";
+import PersonalClientCar from "./pages/PersonalAccount/components/PersonalClientCar";
+import SelectedService from "./pages/PersonalAccount/components/SelectedService";
+import ClientOrder from "./pages/PersonalAccount/components/order/ClientOrder";
 
 
 export const authRoutes = [
@@ -95,6 +98,18 @@ export const authRoutes = [
     {
         path: ADMIN_PANEL_ORDER_SERVICE_RELATION,
         Component: <OrderServiceRelation/>
+    },
+    {
+        path: ACCOUNT_CARS,
+        Component: <PersonalClientCar/>
+    },
+    {
+        path: ACCOUNT_BASKET,
+        Component: <SelectedService/>
+    },
+    {
+        path: ACCOUNT_ORDERS,
+        Component: <ClientOrder/>
     }
 ];
 export const publicRoutes = [

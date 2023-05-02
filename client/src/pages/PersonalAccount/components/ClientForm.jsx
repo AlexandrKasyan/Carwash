@@ -1,16 +1,18 @@
 import { observer } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
-import { getCarWashes } from '../../http/carWashAPI'
-import { create as createClient } from '../../http/clientAPI'
-import { create as createDiscount } from '../../http/discountAPI'
+import { Context } from '../../..'
+import { getCarWashes } from '../../../http/carWashAPI'
+import { create as createClient } from '../../../http/clientAPI'
+import { create as createDiscount } from '../../../http/discountAPI'
 
 
-const ClientForm = observer(({ userId, addName }) => {
-
-  const [user, setUser] = useState({ name: '', phone: '', washes: '' })
+const ClientForm = observer(() => {
+  const { client } = useContext(Context)
+  const { user } = useContext(Context)
   const [washes, setWashes] = useState([])
+  
 
 
   useEffect(() => {
@@ -21,10 +23,11 @@ const ClientForm = observer(({ userId, addName }) => {
     getWashesList()
   }, [])
 
-  const createData = async (user) => {
+
+
+  const createData = async () => {
     const discount = await createDiscount('Отсутствует', 0, 0)
-    await createClient(user.name, user.phone, userId, discount.id);
-    addName(user.name)
+    await createClient(client.client.name, client.client.phone, user.user.id, discount.id);
   }
 
   return (
@@ -34,21 +37,21 @@ const ClientForm = observer(({ userId, addName }) => {
       <Form.Control
         type="text"
         placeholder="Имя"
-        onChange={e => setUser({ ...user, name: e.target.value })}
-        value={user.name}
+        onChange={e => client.setClinet({ ...client.client, name: e.target.value })}
+        value={client.client.name}
       />
       Ваш номер телефона
       <Form.Control
         type="text"
         placeholder="Номер телефона"
-        onChange={e => setUser({ ...user, phone: e.target.value })}
-        value={user.phone}
+        onChange={e => client.setClinet({ ...client.client, phoneNumber: e.target.value })}
+        value={client.client.phoneNumber}
       />
       Предпочитаемая автомойка
       <Form.Select
         type="text"
-        onChange={e => setUser({ ...user, washes: e.target.value })}
-        value={user.washes}
+        onChange={e => user.setUser({ ...user.user, carWashId: e.target.value })}
+        value={user.user.carWashId}
       >
         {washes.map(wash =>
           <option
@@ -62,7 +65,7 @@ const ClientForm = observer(({ userId, addName }) => {
       <Button
         className="mt-3 me-3"
         variant='outline-success'
-        onClick={() => createData(user)}
+        onClick={() => createData(user.user)}
       >
         Сохранить
       </Button>

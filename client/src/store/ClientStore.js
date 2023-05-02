@@ -4,6 +4,7 @@ export default class ClientStore {
     constructor() {
         this._client = {};
         this._clientCars = [];
+        this._selectedCar = [];
         makeAutoObservable(this);
     }
 
@@ -15,10 +16,18 @@ export default class ClientStore {
         this._clientCars = clientCars;
     }
 
+    setSelectedCar(selectedCar){
+        this._selectedCar = selectedCar;
+    }
+
     get client() {
         return this._client;
     }
     get clientCars(){
         return this._clientCars;
+    }
+
+    get selectedCar(){
+        return this._selectedCar;
     }
 }
