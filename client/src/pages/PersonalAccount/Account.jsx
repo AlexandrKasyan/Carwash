@@ -31,7 +31,7 @@ const Account = observer(() => {
 
     return (
         <Container>
-            <div className='account' >
+            <div className='account animation-left' >
                 <ClientInfo />
                 <NavBarAccount />
             </div>

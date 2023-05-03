@@ -2,6 +2,9 @@
     color: white;
     text-decoration: none;
     padding: 0 3rem;
+    margin: 0 4rem;
+    font-weight: 400;
+    font-size:1.1em;
 }
 
 .link-page:hover{
@@ -11,4 +14,11 @@
 .link-home{
     color: white;
     text-decoration: none;
+}
+
+.nav-bar{
+    background-color: #7c7c7c;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }

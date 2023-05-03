@@ -1,0 +1,21 @@
+.contact-page{
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contact-left-part{
+    padding: 8rem 2rem;
+}
+.contact-map-right-part{
+    padding: 2rem;
+    height: 30rem;
+    width: 50rem;
+}
+
+.google-map{
+    height: 26rem;
+    width: 46rem;
+    margin: 0 auto;
+    background-color: #B2B2B2;
+}

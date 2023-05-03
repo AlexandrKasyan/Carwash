@@ -152,6 +152,22 @@
     box-shadow: 0.1rem 0.1rem rgb(99, 99, 99), -0.5em 0 .4em rgb(233, 233, 233);
 }
 
+.client-order-row{
+    display: flex;
+    justify-content: space-between;
+    background-color: #f3f3f3;
+    border: 1px solid rgb(136, 136, 136);
+    border-radius: 1rem;
+    padding: 1rem 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.client-order-row-info{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
 
 
 .selected-services {
@@ -303,4 +319,5 @@
     border-color: #eee;
     color: #444;
     cursor: not-allowed;
+    
 }

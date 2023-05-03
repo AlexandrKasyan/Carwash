@@ -23,3 +23,4 @@ export const ADMIN_PANEL_ORDER_SERVICE_RELATION = '/admin/order_service_relation
 export const ADMIN_PANEL_CLIENT_CAR = '/admin/client_car'
 export const ADMIN_PANEL_WASH_SERVECE = '/admin/wash_service'
 export const WASH_SERVECE = '/services'
+export const CONTACTS = '/contacts'

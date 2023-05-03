@@ -33,6 +33,7 @@ const ClientInfo = observer(() => {
         const getWashesList = async () => {
             const data = await getCarWashes();
             setWashes(data.rows)
+            if(!wash.name)
             data.rows.forEach((e) => {
                 if (e.id === user.user.carWashId)
                     setWash(e)

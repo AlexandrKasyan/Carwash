@@ -26,7 +26,14 @@ const ListServices = () => {
                     <Spinner animation="border" className='user-info-spiner' />
                     :
                     services.map((service) =>
-                        <div className='service-box' key={service.id + 1}>
+                        <div
+                            className={
+                                service.id%2===0?
+                                'service-box animation-left':
+                                'service-box animation-right' 
+                            }
+                            key={service.id + 1}>
+
                             <div className='service-img' style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL + service.img})` }}>
                                 <div className='service-description'>{service.description}</div>
                             </div>

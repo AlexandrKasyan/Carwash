@@ -4,10 +4,18 @@ import { Context } from '../../../index'
 
 const LogOut = () => {
     const { user } = useContext(Context)
+    const { order } = useContext(Context)
+    const { client } = useContext(Context)
 
     const logOut = () => {
         user.setUser({})
         user.setIsAuth(false)
+        client.setClient({})
+        client.setClientCars({})
+        client.setSelectedCar({})
+        order.setOrders({})
+        order.setServices({})
+        order.setStatuses({})
         localStorage.removeItem('token')
     }
     return (

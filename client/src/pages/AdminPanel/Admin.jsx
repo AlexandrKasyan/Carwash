@@ -4,7 +4,7 @@ import { NavAdmin } from "./components/NavAdmin";
 const Admin = () => {
     return (
         <div className="admin-panel" >
-            <NavAdmin ></NavAdmin>
+            <NavAdmin  ></NavAdmin>
             <div className="admin-content"></div>
         </div>
 

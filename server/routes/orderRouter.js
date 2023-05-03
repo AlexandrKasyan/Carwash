@@ -9,5 +9,6 @@ router.get('/getone', orderController.getOne)
 router.get('/clientOrders', checkRole('USER'), orderController.getClientOrders)
 router.post('/remove', checkRole('ADMIN'), orderController.remove)
 router.post('/edit', checkRole('ADMIN'), orderController.edit)
+router.post('/cancel', checkRole('USER'), orderController.cancel)
 
 module.exports = router

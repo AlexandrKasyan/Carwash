@@ -12,6 +12,15 @@ export const getOrderServiceRelations = async (limit, page) => {
     return data
 }
 
+export const getOrderServicesId = async (orderId) => {
+    const {data} = await  $authHost.get('api/orderServiceRelations/orderServicesId', {
+        params:{
+            orderId: orderId
+        }
+    })
+    return data
+}
+
 export const remove = async (id) => {
     await  $authHost.post('api/orderServiceRelations/remove', {id})
 }

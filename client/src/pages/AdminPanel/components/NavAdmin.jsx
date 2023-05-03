@@ -7,7 +7,7 @@ import { ADMIN_PANEL_BODY, ADMIN_PANEL_BRAND, ADMIN_PANEL_CAR, ADMIN_PANEL_CARWA
 export const NavAdmin = observer(() => {
     const navigate = useNavigate();
     return (
-        <div className="admin-list" style={{ color: 'white' }}>
+        <div className="admin-list animation-left" style={{ color: 'white' }}>
             <Button
                 variant={'outline-light'}
                 className="mt-1"

@@ -1,5 +1,5 @@
 const ApiError = require('../error/apiError');
-const { Order } = require('../models/models')
+const { Order, Status } = require('../models/models')
 
 class OrderController {
     async create(req, res, next) {
@@ -60,6 +60,17 @@ class OrderController {
             carId: carId
         })
         await order.save()
+    }
+
+    async cancel(req, res) {
+        const { id } = req.body;
+        const order = await Order.findOne({ where: { id } });
+        const status = await Status.findOne({ where: { name: "Отменен" } });
+        order.set({     
+            statusId: status.id,           
+        })
+        await order.save()
+        return res.json(order)
     }
 }
 

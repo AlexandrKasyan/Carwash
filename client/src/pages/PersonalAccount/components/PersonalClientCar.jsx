@@ -36,9 +36,11 @@ const PersonalClientCar = observer(() => {
                     client.setClient(clientData)
                 }
             }
+        getListClientCar()
+
         }
         fetchData()
-        getListClientCar()
+
         setLoading(false)
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
 

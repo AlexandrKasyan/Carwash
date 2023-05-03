@@ -33,3 +33,8 @@ export const create = async (dateTime, generalPrice, statusId, clientId, carId) 
 export const edit = async (id, dateTime, generalPrice, statusId, clientId, carId) => {
     await $authHost.post('api/order/edit', { id, dateTime, generalPrice, statusId, clientId, carId })
 }
+
+export const cancelClientOrder = async (id) => {
+   const {data} = await $authHost.post('api/order/cancel', { id })
+   return data
+}

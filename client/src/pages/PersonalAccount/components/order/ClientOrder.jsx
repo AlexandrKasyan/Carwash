@@ -1,9 +1,15 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext, useEffect, useState } from 'react'
-import { Container, Spinner } from 'react-bootstrap'
+import { Button, Container, Spinner } from 'react-bootstrap'
 import { Context } from '../../../..'
-import { getClientOrders } from '../../../../http/orderAPI'
+import MyModal from '../../../../components/MyModal/MyModal'
+import { getCarsByListId } from '../../../../http/carAPI'
+import { getClientCars } from '../../../../http/clientCarAPI'
+import { cancelClientOrder, getClientOrders } from '../../../../http/orderAPI'
+import { getOrderServicesId } from '../../../../http/orderServiceRelationAPI'
 import { getStatuses } from '../../../../http/statusAPI'
+import { getWashService } from '../../../../http/washServiceAPI'
+import { fetchClientData } from '../../../../utils/account'
 import ClientForm from '../ClientForm'
 import ClientInfo from '../ClientInfo'
 import NavBarAccount from '../NavBarAccount'
@@ -11,12 +17,36 @@ import NavBarAccount from '../NavBarAccount'
 const ClientOrder = observer(() => {
   const { order } = useContext(Context)
   const { client } = useContext(Context)
+  const { user } = useContext(Context)
   const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    clientOrders()
-    getOrderStatuses()
-    setLoading()
+    const fetchData = async () => {
+      if (!client.client.name) {
+        const clientData = await fetchClientData(user.user.id)
+        if (!clientData) {
+          return (<ClientForm />)
+        }
+        else {
+          const clientCars = await getClientCars(clientData.id)
+          let carsId = []
+          clientCars.forEach(e => {
+            carsId.push(e.carId)
+          })
+          const carsList = await getCarsByListId(carsId)
+          client.setClientCars(carsList)
+          client.setClient(clientData)
+        }
+      }
+      if (order.orders) {
+        await clientOrders()
+        await getOrderStatuses()
+      }
+    }
+    fetchData()
+    setLoading(false)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -31,6 +61,33 @@ const ClientOrder = observer(() => {
     const statuses = await getStatuses()
     order.setStatuses(statuses.rows)
   }
+
+
+  const getOrderServices = async (orderId) => {
+    setModal(true)
+    order.setServices([])
+    const orderIdAndServiceId = await getOrderServicesId(orderId)
+    for (let index = 0; index < orderIdAndServiceId.length; index++) {
+      const element = orderIdAndServiceId[index];
+      console.log(element)
+      let tmp = await getWashService(element.washServiceId)
+      order.setServices([...order.services, tmp])
+    }
+  }
+
+  const cancelOrder = async (orderid) => {
+    const orderEdit = await cancelClientOrder(orderid)
+
+    const newList = order.orders.map(o => {
+      if (o.id === orderEdit.id) {
+        return orderEdit;
+      }
+      return o;
+    });
+    order.setOrders(newList)
+    console.log(newList)
+  }
+
 
   return (
 
@@ -47,32 +104,79 @@ const ClientOrder = observer(() => {
                   <NavBarAccount />
                   <div className='client-order-box'>
                     {order.orders.map((element) =>
-                      <div key={element.id}>
-                        <div>{element.generalPrice}</div>
-
-                        {client.clientCars.map((car) =>
-                          <div key={car.id + 1}>{
-                            car.id === element.carId ?
-                              car.number
-                              :
-                              ''}
+                      <div
+                        key={element.id}
+                        className='client-order-row'>
+                        <div
+                          className='client-order-row-info'
+                          onClick={async () => await getOrderServices(element.id)}
+                        >
+                          <div>
+                            {
+                              client.clientCars.map((car) =>
+                                car.id === element.carId ?
+                                  car.number
+                                  :
+                                  ''
+                              )
+                            }
                           </div>
-                        )}
+                          <div>{`${element.dateTime.split("T")[0]} ${element.dateTime.split("T")[1].slice(0, 5)} `}</div>
+                          <div>{element.generalPrice}р.</div>
 
-                        <div>
-                          {order.statuses.map(status =>
-                            <div key={status.id + 1}>
-                              {status.id === element.statusId ?
-                                status.name
-                                : ''}
-                            </div>
-                          )}
+                          <div>
+                            {
+                              order.statuses.map(status =>
+                                element.statusId === status.id ?
+                                  status.name : ''
+                              )
+                            }
+                          </div>
                         </div>
+                        {
+                          order.statuses.map(status =>
+                            element.statusId === status.id ?
+                              <Button
+                                key={status.id}
+                                onClick={() => cancelOrder(element.id)}
+                                disabled={
+                                  status.name === 'Ожидание' ?
+                                    false :
+                                    true
+                                }>
+                                Отмена
+                              </Button>
+                              :
+                              ''
+                          )}
                       </div>
                     )}
                   </div>
                 </div>
+                <MyModal
+                  visible={modal}
+                  setVisible={setModal}
+                >
+                  {console.log(order.services)}
+                  {
+                    !order.services.length ?
+                      <Spinner />
+                      :
+                      <div>
+                        {
 
+                          order.services.map((service) =>
+                            <div key={service.id + 1}>
+                              <div>{service.name}</div>
+                              <div>{service.cost}</div>
+                            </div>
+                          )
+                        }
+
+                      </div>
+                  }
+
+                </MyModal>
               </div>
               :
               <ClientForm />

@@ -3,7 +3,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Button, Container, Dropdown, Form, Spinner } from 'react-bootstrap'
 import { AiOutlineCar, AiOutlineDelete } from 'react-icons/ai'
 import { Context } from '../../..'
-import { create } from '../../../http/orderAPI'
+import { create as createOrder } from '../../../http/orderAPI'
+import { create as createOrderServiceRelation } from '../../../http/orderServiceRelationAPI'
 import ClientForm from './ClientForm'
 import ClientInfo from './ClientInfo'
 import NavBarAccount from './NavBarAccount'
@@ -23,7 +24,10 @@ const SelectedService = observer(() => {
 
 
   const createClientOrder = async () => {
-    const clientOrder = await create(order.newOrder.dateTime, selectedServices.generalPrice, 1, client.client.clientData.id, client.selectedCar.id)
+    const clientOrder = await createOrder(order.newOrder.dateTime, selectedServices.generalPrice, 2, client.client.id, client.selectedCar.id)
+    await selectedServices.selectedServices.forEach(async (service) => {
+      await createOrderServiceRelation(service.id, clientOrder.id)
+    })
     selectedServices.setSelectedServices([])
     order.setOrders([...order.orders, clientOrder])
     selectedServices.setGeneralPrice(0)
