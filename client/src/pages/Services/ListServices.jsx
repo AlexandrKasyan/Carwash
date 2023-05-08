@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { getWashServices } from '../../http/washServiceAPI'
 import { Spinner } from 'react-bootstrap'
 import SelectServiceButton from './SelectServiceButton';
+import { Context } from '../..';
 
 
 const ListServices = () => {
     const [loading, setLoading] = useState(true);
     const [services, setServices] = useState([])
+    const { user } = useContext(Context)
+
 
     useEffect(() => {
         viewListServices()
@@ -28,9 +31,9 @@ const ListServices = () => {
                     services.map((service) =>
                         <div
                             className={
-                                service.id%2===0?
-                                'service-box animation-left':
-                                'service-box animation-right' 
+                                service.id % 2 === 0 ?
+                                    'service-box animation-left' :
+                                    'service-box animation-right'
                             }
                             key={service.id + 1}>
 
@@ -39,7 +42,10 @@ const ListServices = () => {
                             </div>
                             <div className='service-name'>{service.name}</div>
                             <div className='service-cost'>От {service.cost}р.</div>
-                            <SelectServiceButton service={service}>Выбрать</SelectServiceButton>
+                            {user.isAuth?
+                                <SelectServiceButton service={service}>Выбрать</SelectServiceButton>: ''
+                            }
+
                         </div>
                     )
             }

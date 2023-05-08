@@ -1,8 +1,7 @@
 .link-page{
     color: white;
     text-decoration: none;
-    padding: 0 3rem;
-    margin: 0 4rem;
+    margin-right: 4rem;
     font-weight: 400;
     font-size:1.1em;
 }
@@ -14,6 +13,9 @@
 .link-home{
     color: white;
     text-decoration: none;
+    margin: 0 5rem 0 7.4rem;
+    font-weight: 400;
+    font-size:1.1em;
 }
 
 .nav-bar{
@@ -21,4 +23,13 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.btn-authorization{
+    margin-right: 7.4rem;
+}
+
+.user-email-nav{
+    margin-right: 7.4rem;
+    margin-left: 2rem;
 }

@@ -20,7 +20,6 @@ const ClientInfo = observer(() => {
     const { client } = useContext(Context)
     const { user } = useContext(Context)
     const [washes, setWashes] = useState([])
-    const [wash, setWash] = useState({})
     const [modal, setModal] = useState({
         modalForEmail: false,
         modalForName: false,
@@ -33,11 +32,11 @@ const ClientInfo = observer(() => {
         const getWashesList = async () => {
             const data = await getCarWashes();
             setWashes(data.rows)
-            if(!wash.name)
-            data.rows.forEach((e) => {
-                if (e.id === user.user.carWashId)
-                    setWash(e)
-            })
+            if (!user.carWash.name)
+                data.rows.forEach((e) => {
+                    if (e.id === user.user.carWashId)
+                        user.setCarWash(e)
+                })
         }
         getWashesList()// eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [])
@@ -61,10 +60,15 @@ const ClientInfo = observer(() => {
         await changePhoneByUser(client.client.id, phone)
     }
 
-    const changeWash = async (id, wash) => {
-        setModal({ ...modal, modalForWash: false })
+    const changeWash = async (id) => {
+        setModal({ ...modal, modalForCarWash: false })
+        const carWash = await editByUserCarWash(user.user.id, id)
         user.setUser({ ...user.user, carWashId: id })
-        await editByUserCarWash(user.user.id, id)
+        washes.forEach((wash) => {
+            if (wash.id === Number(carWash.carWashId))
+                user.setCarWash(wash)
+        })
+
     }
 
     const changePassword = async (passwords) => {
@@ -101,7 +105,8 @@ const ClientInfo = observer(() => {
                 </div>
                 <div className='user-info-row'>
                     <MdOutlineLocalCarWash className='user-info-ico' />
-                    {wash.name}
+                    <div>{user.carWash.name}</div>
+
                     <MyModal
                         visible={modal.modalForCarWash}
                         setVisible={setModal}

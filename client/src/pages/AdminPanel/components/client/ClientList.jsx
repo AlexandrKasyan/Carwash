@@ -17,19 +17,19 @@ const ClientList = ({ posts, title, remove, view }) => {
                 setVisible={setModal}
             >
                 <div>
-                <h2>Информация</h2>
+                    <h2>Информация</h2>
                     <p>Id: {client.id}</p>
                     <p>Имя: {client.name}</p>
+                    <p>Пользователь: {client.email}</p>
                     <p>Телефон: {client.phoneNumber}</p>
-                    <p>Создано: {client.createdAt}</p>
+                    <p>Дата регистрации: {client.createdAt}</p>
                     <p>Обновлено: {client.updatedAt}</p>
-                    <p>Пользователь: {client.userId}</p>
                     <p>Скидка: {client.discountId}</p>
 
                     <Button onClick={() => {
                         remove(client)
                         setModal(false)
-                        }}>Удалить</Button>
+                    }}>Удалить</Button>
                     <Button onClick={() => {
                         view(true, client)
                         setModal(false)
@@ -41,8 +41,10 @@ const ClientList = ({ posts, title, remove, view }) => {
                 <thead>
                     <tr>
                         <th>id</th>
+                        <th>Дата регистрации</th>
                         <th>Имя</th>
-                        <th>Пользователь</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,8 +57,14 @@ const ClientList = ({ posts, title, remove, view }) => {
                                 }}
                                 key={post.id}>
                                 <td>{post.id}.</td>
+                                <td>{post.createdAt.slice(0,10)}</td>
                                 <td>{post.name}</td>
-                                <td>{post.userId}</td>
+
+                                <td>{post.email}</td>
+                                <td>
+                                    {post.phoneNumber}
+                                </td>
+
                             </tr>
                         )}
                 </tbody>

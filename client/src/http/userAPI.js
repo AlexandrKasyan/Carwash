@@ -20,7 +20,7 @@ export const check = async () => { // проверка авторизации
         localStorage.setItem('token', data.token)
         return jwt_decode(data.token)
     }
-    catch(e){
+    catch (e) {
         localStorage.removeItem('token')
     }
 }
@@ -36,8 +36,14 @@ export const getUsers = async (limit, page) => {
     return data
 }
 
+export const getAllUsers = async () => {
+    const { data } = await $host.get('api/user/all')
+    return data
+}
+
+
 export const getMyAccount = async () => {
-    const data =  await $authHost.get('api/user/myaccount')
+    const data = await $authHost.get('api/user/myaccount')
     return data.data
 }
 
@@ -58,13 +64,14 @@ export const edit = async (id, email, password, roleId, carWashId) => {
 }
 
 export const editByUserEmail = async (id, email) => {
-    await $authHost.post('api/user/editByUserEmail', { id, email})
+    await $authHost.post('api/user/editByUserEmail', { id, email })
 }
 
 export const editByUserCarWash = async (id, carWashId) => {
-    await $authHost.post('api/user/editByUserCarWash', { id, carWashId})
+    const { data } = await $authHost.post('api/user/editByUserCarWash', { id, carWashId })
+    return data
 }
 
 export const editByUserPassword = async (id, newPassword, lastPassword) => {
-    await $authHost.post('api/user/editPassword', { id, newPassword, lastPassword})
+    await $authHost.post('api/user/editPassword', { id, newPassword, lastPassword })
 }

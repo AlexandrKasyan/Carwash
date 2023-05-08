@@ -58,3 +58,24 @@ tr:active{
     0% {transform: translateX(150%);}
     100% {transform: translateY(0);}
 }
+
+.date-period{
+    display: flex;
+    justify-content: space-between;
+    width:fit-content;
+    line-height: 2.3rem;
+    vertical-align: middle;
+    margin: 0 1rem;
+}
+.dateTime{
+    width: max-content;
+    margin: 0 1rem;
+}
+.post-filter{
+    display: flex;
+    width: max-content;
+    margin: 1rem 1rem 1rem 0;
+}
+.control-buttons{
+    display: flex;
+}

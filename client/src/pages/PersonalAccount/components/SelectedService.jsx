@@ -24,13 +24,18 @@ const SelectedService = observer(() => {
 
 
   const createClientOrder = async () => {
-    const clientOrder = await createOrder(order.newOrder.dateTime, selectedServices.generalPrice, 2, client.client.id, client.selectedCar.id)
-    await selectedServices.selectedServices.forEach(async (service) => {
-      await createOrderServiceRelation(service.id, clientOrder.id)
-    })
-    selectedServices.setSelectedServices([])
-    order.setOrders([...order.orders, clientOrder])
-    selectedServices.setGeneralPrice(0)
+    if (client.selectedCar.id) {
+      const clientOrder = await createOrder(order.newOrder.dateTime, selectedServices.generalPrice, 2, client.client.id, client.selectedCar.id)
+      await selectedServices.selectedServices.forEach(async (service) => {
+        await createOrderServiceRelation(service.id, clientOrder.id)
+      })
+      selectedServices.setSelectedServices([])
+      order.setOrders([...order.orders, clientOrder])
+      selectedServices.setGeneralPrice(0)
+    }
+    else{
+      alert('Выберите автомобиль')
+    }
   }
 
   const generalPrice = () => {
@@ -64,52 +69,58 @@ const SelectedService = observer(() => {
                 <ClientInfo />
                 <div>
                   <NavBarAccount />
-                  <div className='selected-services'>
-                    <h4>Ваш заказ</h4>
-                    {selectedServices.selectedServices.map((services) =>
-                      <div
-                        className='service-row'
-                        key={services.id + 1}
-                      >
-                        <div>{services.name} </div>
-                        <div> {services.cost}р.</div>
+                  {client.clientCars.length ?
+                    <div className='selected-services'>
+                      <h4>Ваш заказ</h4>
+                      {selectedServices.selectedServices.map((services) =>
+                        <div
+                          className='service-row'
+                          key={services.id + 1}
+                        >
+                          <div>{services.name} </div>
+                          <div> {services.cost}р.</div>
+                          <Button
+                            className='remove-service'
+                            variant='btn btn-danger'
+                            onClick={() => removeService(services.id)}
+                          ><AiOutlineDelete size={20} /></Button>
+                        </div>
+                      )}
+                      <div className="order-controll">
+                        <Dropdown className="select-car">
+                          <Dropdown.Toggle>{client.selectedCar.number || "Aвто"}  <AiOutlineCar /></Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            {client.clientCars.map(car =>
+                              <Dropdown.Item
+                                onClick={() => client.setSelectedCar(car)}
+                                key={car.id}
+                              >
+                                {car.number}
+                              </Dropdown.Item>
+                            )}
+                          </Dropdown.Menu>
+                        </Dropdown>
+                        <Form.Control
+                          className='dateTime'
+                          type="datetime-local"
+                          onChange={(e) => { order.setNewOrder({ ...order.newOrder, dateTime: e.target.value }) }}
+                        />
+                        <div className="generalPrice">
+                          Итого: {selectedServices.generalPrice}р.
+                        </div>
                         <Button
-                          className='remove-service'
-                          variant='btn btn-danger'
-                          onClick={() => removeService(services.id)}
-                        ><AiOutlineDelete size={20} /></Button>
+                          className='confirm-order'
+                          onClick={() => createClientOrder()}
+                        >
+                          Подтвердить
+                        </Button>
                       </div>
-                    )}
-                    <div className="order-controll">
-                      <Dropdown className="select-car">
-                        <Dropdown.Toggle>{client.selectedCar.number || "Aвто"}  <AiOutlineCar /></Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          {client.clientCars.map(car =>
-                            <Dropdown.Item
-                              onClick={() => client.setSelectedCar(car)}
-                              key={car.id}
-                            >
-                              {car.number}
-                            </Dropdown.Item>
-                          )}
-                        </Dropdown.Menu>
-                      </Dropdown>
-                      <Form.Control
-                        className='dateTime'
-                        type="datetime-local"
-                        onChange={(e) => { order.setNewOrder({ ...order.newOrder, dateTime: e.target.value }) }}
-                      />
-                      <div className="generalPrice">
-                        Итого: {selectedServices.generalPrice}р.
-                      </div>
-                      <Button
-                        className='confirm-order'
-                        onClick={() => createClientOrder()}
-                      >
-                        Поддвердить
-                      </Button>
+                    </div> :
+                    <div className='selected-services'>
+                      <h3>У вас не добавлено ни одного авто</h3>
+                      <div>Добавте автомобиль и возращайтесь</div>
                     </div>
-                  </div>
+                  }
                 </div>
               </div>
               :

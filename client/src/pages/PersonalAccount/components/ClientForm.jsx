@@ -6,13 +6,14 @@ import { Context } from '../../..'
 import { getCarWashes } from '../../../http/carWashAPI'
 import { create as createClient } from '../../../http/clientAPI'
 import { create as createDiscount } from '../../../http/discountAPI'
+import { editByUserCarWash } from '../../../http/userAPI'
 
 
 const ClientForm = observer(() => {
   const { client } = useContext(Context)
   const { user } = useContext(Context)
   const [washes, setWashes] = useState([])
-  
+  const [clientData, setClientData] = useState({ name: '', phoneNumber: '', carWashId: ''})
 
 
   useEffect(() => {
@@ -27,7 +28,9 @@ const ClientForm = observer(() => {
 
   const createData = async () => {
     const discount = await createDiscount('Отсутствует', 0, 0)
-    await createClient(client.client.name, client.client.phone, user.user.id, discount.id);
+    await createClient(clientData.name, clientData.phoneNumber, user.user.id, discount.id);
+    client.setClient({ name: clientData.name, phoneNumber: clientData.phoneNumber, userId: user.user.id, discountId: discount.id })
+    await editByUserCarWash(user.user.id, clientData.carWashId)
   }
 
   return (
@@ -37,22 +40,24 @@ const ClientForm = observer(() => {
       <Form.Control
         type="text"
         placeholder="Имя"
-        onChange={e => client.setClinet({ ...client.client, name: e.target.value })}
-        value={client.client.name}
+        onChange={e => setClientData({ ...clientData, name: e.target.value })}
+        value={clientData.name}
       />
       Ваш номер телефона
       <Form.Control
         type="text"
         placeholder="Номер телефона"
-        onChange={e => client.setClinet({ ...client.client, phoneNumber: e.target.value })}
-        value={client.client.phoneNumber}
+        onChange={e => setClientData({ ...clientData, phoneNumber: e.target.value })}
+        value={clientData.phoneNumber}
       />
       Предпочитаемая автомойка
       <Form.Select
         type="text"
-        onChange={e => user.setUser({ ...user.user, carWashId: e.target.value })}
-        value={user.user.carWashId}
+
+        onChange={e => setClientData({ ...clientData, carWashId: e.target.value })}
+        value={clientData.carWashId}
       >
+        <option disabled value="">Выберите автомойку</option>
         {washes.map(wash =>
           <option
             key={wash.id}
@@ -65,7 +70,7 @@ const ClientForm = observer(() => {
       <Button
         className="mt-3 me-3"
         variant='outline-success'
-        onClick={() => createData(user.user)}
+        onClick={() => createData()}
       >
         Сохранить
       </Button>

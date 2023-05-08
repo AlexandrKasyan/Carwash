@@ -1,9 +1,9 @@
 import React from 'react';
-import classes from './MySelect.module.css'
+import { Form } from 'react-bootstrap';
 const MySelect = ({ options, defaultValue, value, onChange }) => {
     return (
-        <select
-            className={classes.mySelect}
+        <Form.Select
+            
             value={value}
             onChange={event => onChange(event.target.value)}
         >
@@ -13,7 +13,7 @@ const MySelect = ({ options, defaultValue, value, onChange }) => {
                     {option.name}
                 </option>
             )}
-        </select>
+        </Form.Select>
     );
 };
 

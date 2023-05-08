@@ -14,7 +14,6 @@ const LogOut = () => {
         client.setClientCars({})
         client.setSelectedCar({})
         order.setOrders({})
-        order.setServices({})
         order.setStatuses({})
         localStorage.removeItem('token')
     }

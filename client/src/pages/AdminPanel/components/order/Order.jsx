@@ -9,6 +9,7 @@ import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
 import { NavAdmin } from "../NavAdmin";
+import PostFilter from "../Filter";
 
 
 
@@ -19,6 +20,8 @@ const Order = observer(() => {
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const [filter, setFilter] = useState({ sort: '', query: '', date1: '', date2: '' });
+
 
 
   const createPost = async (newPost) => {
@@ -73,7 +76,15 @@ const Order = observer(() => {
         >
           <OrderEdit getClientList={getList} edit={editPost} post={order} />
         </MyModal>
-
+        <PostFilter
+          filter={filter}
+          setFilter={setFilter}
+          options={[
+            { value: 'email', name: 'email' },
+            { value: 'name', name: 'Имени' },
+            { value: 'createdAt', name: 'Дате' },
+          ]}
+        />
         <OrderList remove={removePost} view={view} posts={orders} title="Заказы" listNameKeys={[]} />
         <Pages
           postTotalPages={totalPages} page={queryParams.page} changePage={changePage} getList={getList}

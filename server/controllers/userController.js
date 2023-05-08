@@ -52,7 +52,7 @@ class UserController {
     res.json({ token });
   }
 
-  async getAll(req, res) {
+  async getUsers(req, res) {
     let users
     let {page, limit} = req.query;
     page = page || 1;
@@ -61,6 +61,12 @@ class UserController {
     users = await User.findAndCountAll({ limit, offset })
     return res.json(users)
   }//получение списка всех пользователей
+
+    async getAll(req, res) {
+
+    const users = await User.findAll()
+    return res.json(users)
+  }
   async getOne(req, res) {
     const { id } = req.query;
     const user = await User.findOne({ where: { id } });
@@ -85,6 +91,7 @@ class UserController {
       carWashId: carWashId
     })
     await user.save()
+    return res.json(user)
   }// изменение данных администратором
 
   async editByUserEmail(req, res) {
@@ -99,6 +106,7 @@ class UserController {
       email: email
     })
     await user.save()
+    return res.json(user)
   }// изменение данных пользователем
 
   async editByUserCarWash(req, res) {
@@ -109,6 +117,7 @@ class UserController {
       carWashId: carWashId
     })
     await user.save()
+    return res.json(user)
   }// изменение данных пользователем
 
     async editByUserPassword(req, res) {

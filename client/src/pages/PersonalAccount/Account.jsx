@@ -16,18 +16,15 @@ const Account = observer(() => {
         const fetchData = async () => {
             if (!client.client.name) {
                 const clientData = await fetchClientData(user.user.id)
-                if (!clientData) {
-                    return (<ClientForm />)
-                }
-                else {
-                    client.setClient(clientData)
-                }
+                client.setClient(clientData)
             }
         }
         fetchData()
         // eslint-disable-next-line react-hooks/exhaustive-deps       
     }, [])
 
+    if (!client.client)
+        return (<ClientForm />)
 
     return (
         <Container>

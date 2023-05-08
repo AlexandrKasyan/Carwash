@@ -33,9 +33,32 @@ export const edit = async (id, name, phoneNumber, userId, discountId) => {
 }
 
 export const changeNameByUser = async (id, name) => {
-    await $authHost.post('api/client/changeName', { id, name})
+    await $authHost.post('api/client/changeName', { id, name })
 }
 
 export const changePhoneByUser = async (id, phoneNumber) => {
-    await $authHost.post('api/client/changePhone', { id, phoneNumber})
+    await $authHost.post('api/client/changePhone', { id, phoneNumber })
+}
+
+export const createReport = async (clientData) => {
+    const { data } = await $authHost.post('api/client/createReport', { clientData })
+    return data
+}
+
+export async function downloadReport(fileName) {
+    const response = await fetch(`http://localhost:5000/api/client/downloadReport?fileName=${fileName}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    if (response.status === 200) {
+        const blob = await response.blob()
+        const downloadUrl = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = downloadUrl
+        link.download = fileName
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+    }
 }

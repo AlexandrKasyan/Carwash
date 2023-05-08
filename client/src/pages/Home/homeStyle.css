@@ -1,0 +1,39 @@
+.wrap-home{
+    background-color: #F2EFEF;
+    
+}
+
+.our-advantages{
+    width: 100%;
+    background-color:#E8E8E8 ;
+    color: #666666;
+    padding: 0.4rem 0;
+}
+
+.advantages-fact{
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-fact{
+    width: 48%;
+    font-size: 1.2em;
+}
+.fact{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    height: min-content;
+}
+
+.img-lable-fact{
+    padding-right: 1rem;
+    width: fit-content;
+    height: fit-content;
+}
+
+.img-fact{
+    width: 48%;
+    height: min-content;
+}

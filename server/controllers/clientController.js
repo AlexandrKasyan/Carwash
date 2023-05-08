@@ -11,7 +11,7 @@ class ClientController {
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
-        clients = await Client.findAndCountAll({ limit, offset })
+        clients = await Client.findAll()
 
         return res.json(clients)
     }

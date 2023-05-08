@@ -6,18 +6,22 @@ import MyModal from "../../../../components/MyModal/MyModal";
 import { usePosts } from "../../../../hooks/useClient";
 import ClientEdit from "./ClientEdit";
 import { Button, Container } from "react-bootstrap";
-import { create, edit, getClients, remove } from "../../../../http/clientAPI";
+import { create, edit, getClients, createReport, remove, downloadReport } from "../../../../http/clientAPI";
 import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
 import { NavAdmin } from "../../components/NavAdmin";
+import { getAllUsers } from "../../../../http/userAPI";
+import { HiOutlineDocumentReport } from 'react-icons/hi';
+import { MdCreate } from "react-icons/md";
+
 
 
 
 const Clients = observer(() => {
   const [clients, setClients] = useState([]);
   const [client, setClient] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '' });
+  const [filter, setFilter] = useState({ sort: '', query: '', date1: '', date2: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
@@ -30,7 +34,7 @@ const Clients = observer(() => {
     setModal(false);
   }
 
-  const sortedAndSearchPost = usePosts(clients, filter.sort, filter.query);
+  const sortedAndSearchPost = usePosts(clients, filter.sort, filter.query, filter.date1, filter.date2);
 
   const removePost = async (post) => {
     await remove(post.id);
@@ -38,9 +42,33 @@ const Clients = observer(() => {
   }
 
   const getClientList = async () => {
+    const users = await getUsers()
     const data = await getClients(queryParams.limit, queryParams.page)
+    // eslint-disable-next-line 
+    const clientsArr = data.map((clientData) => {
+      let newUser
+      users.forEach((user) => {
+        if (clientData.userId === user.id) {
+          newUser = {
+            ...clientData,
+            email: user.email,
+            createdAt: user.createdAt.slice(0, 10)
+          }
+          return newUser
+        }
+
+      })
+      if (newUser)
+        return newUser
+    })
+
     setTotalPages(getPagesCount(data.count, queryParams.limit))
-    setClients(data.rows)
+    setClients(clientsArr)
+  }
+
+  const getUsers = async () => {
+    const data = await getAllUsers()
+    return data
   }
 
   const view = (state, post) => {
@@ -58,12 +86,20 @@ const Clients = observer(() => {
     setQueryParams({ ...queryParams, page: p })
   }
 
+  const report = async () => {
+    const fileName = await createReport(sortedAndSearchPost)
+    await downloadReport(fileName)
+  }
+
+
   return (
     <div className="admin-panel">
       <NavAdmin />
       <Container className="admin-content">
-        
-        <Button onClick={() => setModal(true)}>Создать запись</Button>
+        <div className="control-buttons">
+          <Button className="" onClick={() => setModal(true)}> <MdCreate /> Создать запись</Button>
+          <Button className="ms-3" variant="success" onClick={() => report()}> <HiOutlineDocumentReport /> Скачать отчёт</Button>
+        </div>
 
         <MyModal
           visible={modal}
@@ -81,6 +117,11 @@ const Clients = observer(() => {
         <PostFilter
           filter={filter}
           setFilter={setFilter}
+          options={[
+            { value: 'email', name: 'email' },
+            { value: 'name', name: 'Имени' },
+            { value: 'createdAt', name: 'Дате' },
+          ]}
         />
         <ClientList remove={removePost} view={view} posts={sortedAndSearchPost} title="Клиенты" listNameKeys={[]} />
         <Pages
