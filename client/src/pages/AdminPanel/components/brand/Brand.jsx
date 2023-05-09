@@ -17,21 +17,21 @@ import { NavAdmin } from "../NavAdmin";
 const Brand = observer(() => {
   const [brands, setBrands] = useState([]);
   const [brand, setBrand] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
 
-  
+  const sortedAndSearchPost = usePosts(brands, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
+
+
   const createBrand = async (newPost) => {
     await create(newPost.name);
     await getBrandList();
     setModal(false);
   }
 
-  const sortedAndSearchPost = usePosts(brands, filter.sort, filter.query);
-  
   const removePost = async (post) => {
     remove(post.id);
   }
@@ -42,15 +42,15 @@ const Brand = observer(() => {
     setBrands(data.rows)
   }
 
-  const view = (state, post) =>{
+  const view = (state, post) => {
     setModalEdit(state)
-    setBrand(post) 
+    setBrand(post)
   }
 
   const editBrand = (editPost) => {
     edit(editPost.id, editPost.name, editPost.number, editPost.address)
     setModalEdit(false)
-    setBrand({title: "", body: ""})
+    setBrand({ title: "", body: "" })
   }
 
   const changePage = (p) => {
@@ -59,32 +59,40 @@ const Brand = observer(() => {
 
   return (
     <div className="admin-panel">
-      <NavAdmin/>
-    <Container className="admin-content">
-      <Button onClick={() => setModal(true)}>Создать запись</Button>
+      <NavAdmin />
+      <Container className="admin-content">
+        <Button onClick={() => setModal(true)}>Создать запись</Button>
 
-      <MyModal
-        visible={modal}
-        setVisible={setModal}
-      >
-        <BrandForm create={createBrand} />
-      </MyModal>
-      
-      <MyModal
-        visible={modalEdit}
-        setVisible={setModalEdit}
-      >
-       <BrandEdit getClientList={getBrandList} edit={editBrand} post={brand}/>
-      </MyModal>
-      <PostFilter
-        filter={filter}
-        setFilter={setFilter}
-      />
-      <BrandList remove={removePost} view={view} posts={sortedAndSearchPost} title="Бренды" listNameKeys = {[]} />
-      <Pages
-        postTotalPages={totalPages} page = {queryParams.page} changePage = {changePage} getList = {getBrandList}
-      />
-    </Container>
+        <MyModal
+          visible={modal}
+          setVisible={setModal}
+        >
+          <BrandForm create={createBrand} />
+        </MyModal>
+
+        <MyModal
+          visible={modalEdit}
+          setVisible={setModalEdit}
+        >
+          <BrandEdit getClientList={getBrandList} edit={editBrand} post={brand} />
+        </MyModal>
+        <PostFilter
+          filter={filter}
+          setFilter={setFilter}
+          optionsSort={[
+            { value: 'name', name: 'Название' },
+
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'ID' },
+            { value: 'name', name: 'Название' },
+          ]}
+        />
+        <BrandList remove={removePost} view={view} posts={sortedAndSearchPost} title="Бренды" listNameKeys={[]} />
+        <Pages
+          postTotalPages={totalPages} page={queryParams.page} changePage={changePage} getList={getBrandList}
+        />
+      </Container>
     </div>
   );
 })

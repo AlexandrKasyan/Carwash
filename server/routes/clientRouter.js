@@ -1,7 +1,6 @@
 const Router = require('express')
 const router = new Router()
 const clientController = require('../controllers/clientController.js')
-const clientReport = require('../services/ClientReport')
 const authMiddleware = require('../middleware/authMiddleware.js')
 const checkRole = require('../middleware/checkRoleMiddleware')
 
@@ -14,7 +13,6 @@ router.post('/edit', checkRole('ADMIN'), clientController.edit)
 router.post('/removeFromUser', checkRole('ADMIN'), clientController.removeFromUser)
 router.post('/changeName', checkRole('USER'), clientController.changeName)
 router.post('/changePhone', checkRole('USER'), clientController.changePhone)
-router.post('/createReport', checkRole('USER'), clientReport.createReport)
-router.get('/downloadReport', clientReport.downloadReport)
+
 
 module.exports = router

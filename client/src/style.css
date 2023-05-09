@@ -79,3 +79,8 @@ tr:active{
 .control-buttons{
     display: flex;
 }
+.post-search{
+    display: grid;
+    grid-template-columns: 80% 19%;
+    justify-content: space-between;
+}

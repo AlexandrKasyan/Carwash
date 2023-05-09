@@ -17,11 +17,13 @@ import { NavAdmin } from "../NavAdmin";
 const Discount = observer(() => {
   const [discounts, setDiscounts] = useState([]);
   const [discount, setDiscount] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
+
+  const sortedAndSearchPost = usePosts(discounts, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
 
 
   const createDiscount = async (newPost) => {
@@ -29,8 +31,6 @@ const Discount = observer(() => {
     await getDiscountList();
     setModal(false);
   }
-
-  const sortedAndSearchPost = usePosts(discounts, filter.sort, filter.query);
 
   const removePost = async (post) => {
     await remove(post.id);
@@ -80,6 +80,15 @@ const Discount = observer(() => {
         <PostFilter
           filter={filter}
           setFilter={setFilter}
+          optionsSort={[
+            { value: 'name', name: 'Название' },
+            { value: 'discountPercentage', name: 'Посещение' }, 
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'ID' },
+            { value: 'name', name: 'Название' },      
+            { value: 'discountPercentage', name: 'Посещение' },      
+          ]}
         />
         <DiscountList remove={removePost} view={view} posts={sortedAndSearchPost} title="Скидки" listNameKeys={[]} />
         <Pages

@@ -3,7 +3,7 @@ import PostForm from "./UserForm";
 import UserList from "./UsersList";
 import PostFilter from "../Filter";
 import MyModal from "../../../../components/MyModal/MyModal";
-import { usePosts } from "../../../../hooks/usePosts";
+import { usePosts } from "../../../../hooks/useClient";
 import PostEdit from "./UserEdit";
 import { Button, Container} from "react-bootstrap";
 import { create, edit, getUsers, remove } from "../../../../http/userAPI";
@@ -20,7 +20,7 @@ const Users = observer(() => {
   const [roles, setRoles] = useState([]);
   const [washes, setWashes] = useState([]);
   const [user, setUser] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '' });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
@@ -33,7 +33,7 @@ const Users = observer(() => {
     setModal(false);
   }
 
-  const sortedAndSearchPost = usePosts(users, filter.sort, filter.query);
+  const sortedAndSearchPost = usePosts(users, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
 
   const removePost = async (post) => {
     await remove(post.id);
@@ -96,6 +96,14 @@ const Users = observer(() => {
         <PostFilter
           filter={filter}
           setFilter={setFilter}
+          optionsSort={[
+            { value: 'email', name: 'Email' },
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'ID' },
+            { value: 'email', name: 'Название' },
+            { value: 'role', name: 'Роль' },      
+          ]}
         />
         <UserList remove={removePost} washes={washes} roles={roles} view={view} posts={sortedAndSearchPost} title="Пользователи" listNameKeys={[]} />
         <Pages

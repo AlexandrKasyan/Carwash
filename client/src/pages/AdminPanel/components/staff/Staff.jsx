@@ -17,12 +17,14 @@ import { NavAdmin } from "../NavAdmin";
 const Staff = observer(() => {
   const [staffs, setStaffs] = useState([]);
   const [staff, setStaff] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
 
+  const sortedAndSearchPost = usePosts(staffs, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
+  
 
   const createStaff = async (newPost) => {
     await create(newPost.name, newPost.position, newPost.phoneNumber, newPost.userId, newPost.postId);
@@ -30,7 +32,6 @@ const Staff = observer(() => {
     setModal(false);
   }
 
-  const sortedAndSearchPost = usePosts(staffs, filter.sort, filter.query);
 
   const removePost = async (post) => {
     remove(post.id);
@@ -78,6 +79,18 @@ const Staff = observer(() => {
         <PostFilter
           filter={filter}
           setFilter={setFilter}
+          optionsSort={[
+            { value: 'name', name: 'Имя' },
+            { value: 'position', name: 'Должность' },
+            { value: 'phoneNumber', name: 'Дата создания' },
+
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'Id' },
+            { value: 'name', name: 'Имя' },
+            { value: 'position', name: 'Должность' },
+            { value: 'phoneNumber', name: 'Дата создания' },
+          ]}
         />
         <StaffList remove={removePost} view={view} posts={sortedAndSearchPost} title="Сотрудники" listNameKeys={[]} />
         <Pages

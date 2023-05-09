@@ -17,7 +17,7 @@ import { NavAdmin } from "../NavAdmin";
 const CarWash = observer(() => {
   const [carWahes, setCarWahes] = useState([]);
   const [carWash, setCarWash] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '' });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
@@ -29,8 +29,7 @@ const CarWash = observer(() => {
     await getCarWashList();
     setModal(false);
   }
-
-  const sortedAndSearchPost = usePosts(carWahes, filter.sort, filter.query);
+  const sortedAndSearchPost = usePosts(carWahes, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
 
   const removePost = async (post) => {
     remove(post.id);
@@ -80,6 +79,15 @@ const CarWash = observer(() => {
         <PostFilter
           filter={filter}
           setFilter={setFilter}
+          optionsSort={[
+            { value: 'name', name: 'Название' },
+            { value: 'address', name: 'Адрес' },
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'ID' },
+            { value: 'name', name: 'Название' },
+            { value: 'address', name: 'Адрес' },     
+          ]}
         />
         <CarWashList remove={removePost} view={view} posts={sortedAndSearchPost} title="Автомойки" listNameKeys={[]} />
         <Pages

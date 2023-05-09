@@ -15,6 +15,7 @@ const staffRouter = require('./staffRouter')
 const statusRouter = require('./statusRouter')
 const userRouter = require('./userRouter')
 const washServiceRouter = require('./washServiceRouter')
+const reportRouter = require('./reportRouter')
 
 
 router.use('/car', carRouter)
@@ -32,6 +33,7 @@ router.use('/staff', staffRouter)
 router.use('/status', statusRouter)
 router.use('/user', userRouter)
 router.use('/washService', washServiceRouter)
+router.use('/report', reportRouter)
 
 
 

@@ -8,7 +8,6 @@ export const getOrders = async (limit, page) => {
             page: page
         }
     })
-    console.log(data)
     return data
 }
 
@@ -35,6 +34,6 @@ export const edit = async (id, dateTime, generalPrice, statusId, clientId, carId
 }
 
 export const cancelClientOrder = async (id) => {
-   const {data} = await $authHost.post('api/order/cancel', { id })
-   return data
+    const { data } = await $authHost.post('api/order/cancel', { id })
+    return data
 }

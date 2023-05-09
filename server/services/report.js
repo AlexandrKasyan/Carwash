@@ -2,26 +2,19 @@ var Excel = require('exceljs');
 const ApiError = require('../error/apiError')
 
 
-class ClientReport {
+class Report {
 
     async createReport(req, res, next) {
         try {
 
-            const { clientData } = req.body;
+            const { arrayPosts, columns } = req.body;
             const workbook = new Excel.Workbook();
             const worksheet = workbook.addWorksheet('Sensor Data');
 
-            worksheet.columns = [
-                { header: 'id', key: 'id', width: 5 },
-                { header: 'Дата регистрации', key: 'createdAt', width: 17, style: { numFmt: 'dd/mm/yyyy' } },
-                { header: 'ФИО', key: 'name', width: 30 },
-                { header: 'Email', key: 'email', width: 32 },
-                { header: 'Телефон', key: 'phoneNumber', width: 17 },
-                { header: 'Скидка', key: 'discount', width: 32 },
-            ];
+            worksheet.columns = columns
 
-            clientData.forEach((client) => {
-                worksheet.addRow(client).commit();
+            arrayPosts.forEach((post) => {
+                worksheet.addRow(post).commit();
             })
             const fileName = Date.now();
             workbook.xlsx.writeFile(`./static/report/${fileName}.xlsx`);
@@ -44,4 +37,4 @@ class ClientReport {
     }
 }
 
-module.exports = new ClientReport();
+module.exports = new Report();

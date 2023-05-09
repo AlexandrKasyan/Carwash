@@ -11,10 +11,10 @@ const LogOut = () => {
         user.setUser({})
         user.setIsAuth(false)
         client.setClient({})
-        client.setClientCars({})
+        client.setClientCars([{}])
         client.setSelectedCar({})
-        order.setOrders({})
-        order.setStatuses({})
+        order.setOrders([{}])
+        order.setStatuses([{}])
         localStorage.removeItem('token')
     }
     return (

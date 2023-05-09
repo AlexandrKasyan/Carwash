@@ -6,7 +6,7 @@ import MyModal from "../../../../components/MyModal/MyModal";
 import { usePosts } from "../../../../hooks/useClient";
 import ClientEdit from "./ClientEdit";
 import { Button, Container } from "react-bootstrap";
-import { create, edit, getClients, createReport, remove, downloadReport } from "../../../../http/clientAPI";
+import { create, edit, getClients, remove } from "../../../../http/clientAPI";
 import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
@@ -14,6 +14,7 @@ import { NavAdmin } from "../../components/NavAdmin";
 import { getAllUsers } from "../../../../http/userAPI";
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { MdCreate } from "react-icons/md";
+import { createReport, downloadReport } from "../../../../http/reportAPI";
 
 
 
@@ -21,7 +22,7 @@ import { MdCreate } from "react-icons/md";
 const Clients = observer(() => {
   const [clients, setClients] = useState([]);
   const [client, setClient] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '', date1: '', date2: '' });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
@@ -34,7 +35,7 @@ const Clients = observer(() => {
     setModal(false);
   }
 
-  const sortedAndSearchPost = usePosts(clients, filter.sort, filter.query, filter.date1, filter.date2);
+  const sortedAndSearchPost = usePosts(clients, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
 
   const removePost = async (post) => {
     await remove(post.id);
@@ -87,9 +88,17 @@ const Clients = observer(() => {
   }
 
   const report = async () => {
-    const fileName = await createReport(sortedAndSearchPost)
-    await downloadReport(fileName)
-  }
+    const columns = [
+      { header: 'id', key: 'id', width: 5 },
+      { header: 'Дата регистрации', key: 'createdAt', width: 17, style: { numFmt: 'dd/mm/yyyy' } },
+      { header: 'ФИО', key: 'name', width: 30 },
+      { header: 'Email', key: 'email', width: 32 },
+      { header: 'Телефон', key: 'phoneNumber', width: 17 },
+      { header: 'Скидка', key: 'discount', width: 32 },
+  ]
+  const fileName = await createReport(sortedAndSearchPost, columns)
+  await downloadReport(fileName)
+}
 
 
   return (
@@ -117,10 +126,18 @@ const Clients = observer(() => {
         <PostFilter
           filter={filter}
           setFilter={setFilter}
-          options={[
-            { value: 'email', name: 'email' },
+          optionsSort={[
             { value: 'name', name: 'Имени' },
-            { value: 'createdAt', name: 'Дате' },
+            { value: 'email', name: 'Email' },
+            { value: 'createdAt', name: 'Дате регистрации' },
+            { value: 'phoneNumber', name: 'Номеру телефона' }
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'ID' },
+            { value: 'name', name: 'Имени' },
+            { value: 'email', name: 'Email' },
+            { value: 'createdAt', name: 'Дате создания' },
+            { value: 'phoneNumber', name: 'Номеру телефона' }
           ]}
         />
         <ClientList remove={removePost} view={view} posts={sortedAndSearchPost} title="Клиенты" listNameKeys={[]} />

@@ -9,6 +9,8 @@ import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
 import { NavAdmin } from "../NavAdmin";
+import { usePosts } from "../../../../hooks/useClient";
+import PostFilter from "../Filter";
 
 
 
@@ -19,7 +21,10 @@ const Post = observer(() => {
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
 
+  const sortedAndSearchPost = usePosts(posts, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
+  
 
   const createPost = async (newPost) => {
     await create(newPost.name, newPost.duties);
@@ -71,8 +76,23 @@ const Post = observer(() => {
         >
           <PostEdit getClientList={getPostList} edit={editPost} post={post} />
         </MyModal>
+        <PostFilter
+          filter={filter}
+          setFilter={setFilter}
+          optionsSort={[
+            { value: 'name', name: 'Название' },
+            { value: 'duties', name: 'Обязанности' },
+            { value: 'createdAt', name: 'Дата создания' },
 
-        <PostList remove={removePost} view={view} posts={posts} title="Должности" />
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'Id' },
+            { value: 'name', name: 'Название' },
+            { value: 'duties', name: 'Обязанности' },
+            { value: 'createdAt', name: 'Дата создания' },
+          ]}
+        />
+        <PostList remove={removePost} view={view} posts={sortedAndSearchPost} title="Должности" />
         <Pages
           postTotalPages={totalPages} page={queryParams.page} changePage={changePage} getList={getPostList}
         />

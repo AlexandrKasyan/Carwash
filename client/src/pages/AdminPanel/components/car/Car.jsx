@@ -3,7 +3,7 @@ import CarForm from "./CarForm";
 import CarList from "./CarList";
 import PostFilter from "../Filter";
 import MyModal from "../../../../components/MyModal/MyModal";
-import { usePosts } from "../../../../hooks/useCar";
+import { usePosts } from "../../../../hooks/useClient";
 import CarEdit from "./CarEdit";
 import { Button, Container } from "react-bootstrap";
 import { create, edit, getCars, remove } from "../../../../http/carAPI";
@@ -15,22 +15,21 @@ import { NavAdmin } from "../NavAdmin";
 
 
 const Car = observer(() => {
-  const [carWahes, setCars] = useState([]);
-  const [carWash, setCar] = useState({});
-  const [filter, setFilter] = useState({ sort: '', query: '' });
+  const [cars, setCars] = useState([]);
+  const [car, setCar] = useState({});
   const [modal, setModal] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
 
+  const sortedAndSearchPost = usePosts(cars, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
   
   const createCar = async (newPost) => {
     await create(newPost.number, newPost.yearRelease, newPost.bodyId, newPost.carBrandId);
     await getCarList();
     setModal(false);
   }
-
-  const sortedAndSearchPost = usePosts(carWahes, filter.sort, filter.query);
   
   const removePost = async (post) => {
     remove(post.id);
@@ -75,12 +74,23 @@ const Car = observer(() => {
         visible={modalEdit}
         setVisible={setModalEdit}
       >
-       <CarEdit getClientList={getCarList} edit={editCar} post={carWash}/>
+       <CarEdit getClientList={getCarList} edit={editCar} post={car}/>
       </MyModal>
       <PostFilter
-        filter={filter}
-        setFilter={setFilter}
-      />
+          filter={filter}
+          setFilter={setFilter}
+          optionsSort={[
+            { value: 'number', name: 'Номеру' },
+            { value: 'yearRelease', name: 'Году' },      
+            { value: 'createdAt', name: 'Дата создания' },      
+
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'ID' },
+            { value: 'number', name: 'Номеру' },     
+            { value: 'yearRelease', name: 'Году' },      
+          ]}
+        />
       <CarList remove={removePost} view={view} posts={sortedAndSearchPost} title="Автомобили" listNameKeys = {[]} />
       <Pages
         postTotalPages={totalPages} page = {queryParams.page} changePage = {changePage} getList = {getCarList}

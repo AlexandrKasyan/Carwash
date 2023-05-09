@@ -25,15 +25,20 @@ const SelectedService = observer(() => {
 
   const createClientOrder = async () => {
     if (client.selectedCar.id) {
-      const clientOrder = await createOrder(order.newOrder.dateTime, selectedServices.generalPrice, 2, client.client.id, client.selectedCar.id)
-      await selectedServices.selectedServices.forEach(async (service) => {
-        await createOrderServiceRelation(service.id, clientOrder.id)
-      })
-      selectedServices.setSelectedServices([])
-      order.setOrders([...order.orders, clientOrder])
-      selectedServices.setGeneralPrice(0)
+      if (selectedServices.selectedServices.length) {
+        const clientOrder = await createOrder(order.newOrder.dateTime, selectedServices.generalPrice, 2, client.client.id, client.selectedCar.id)
+        await selectedServices.selectedServices.forEach(async (service) => {
+          await createOrderServiceRelation(service.id, clientOrder.id)
+        })
+        selectedServices.setSelectedServices([])
+        order.setOrders([...order.orders, clientOrder])
+        selectedServices.setGeneralPrice(0)
+      }
+      else {
+        alert('Ваша корзина пуста')
+      }
     }
-    else{
+    else {
       alert('Выберите автомобиль')
     }
   }

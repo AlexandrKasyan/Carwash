@@ -102,56 +102,69 @@ const ClientOrder = observer(() => {
                 <ClientInfo />
                 <div>
                   <NavBarAccount />
-                  <div className='client-order-box'>
-                    {order.orders.map((element) =>
-                      <div
-                        key={element.id}
-                        className='client-order-row'>
-                        <div
-                          className='client-order-row-info'
-                          onClick={async () => await getOrderServices(element.id)}
-                        >
-                          <div>
-                            {
-                              client.clientCars.map((car) =>
-                                car.id === element.carId ?
-                                  car.number
-                                  :
-                                  ''
-                              )
-                            }
-                          </div>
-                          <div>{`${element.dateTime.split("T")[0]} ${element.dateTime.split("T")[1].slice(0, 5)} `}</div>
-                          <div>{element.generalPrice}р.</div>
+                  {
+                    order.orders.length ?
+                      <div className='client-order-box'>
+                        {order.orders.map((element) =>
+                          <div
+                            key={element.id}
+                            className='client-order-row'>
+                            <div
+                              className='client-order-row-info'
+                              onClick={async () => await getOrderServices(element.id)}
+                            >
+                              <div>
+                                {
+                                  client.clientCars.map((car) =>
+                                    car.id === element.carId ?
+                                      car.number
+                                      :
+                                      ''
+                                  )
+                                }
+                              </div>
 
-                          <div>
+                              <div>{ 
+                                element.dateTime?
+                                `${element.dateTime.split("T")[0]} ${element.dateTime.split("T")[1].slice(0, 5)} `:
+                                ''
+                                }
+                              </div>
+
+                              <div>{element.generalPrice}р.</div>
+
+                              <div>
+                                {
+                                  order.statuses.map(status =>
+                                    element.statusId === status.id ?
+                                      status.name : ''
+                                  )
+                                }
+                              </div>
+                            </div>
                             {
                               order.statuses.map(status =>
                                 element.statusId === status.id ?
-                                  status.name : ''
-                              )
-                            }
+                                  <Button
+                                    key={status.id}
+                                    onClick={() => cancelOrder(element.id)}
+                                    disabled={
+                                      status.name === 'Ожидание' ?
+                                        false :
+                                        true
+                                    }>
+                                    Отмена
+                                  </Button>
+                                  :
+                                  ''
+                              )}
                           </div>
-                        </div>
-                        {
-                          order.statuses.map(status =>
-                            element.statusId === status.id ?
-                              <Button
-                                key={status.id}
-                                onClick={() => cancelOrder(element.id)}
-                                disabled={
-                                  status.name === 'Ожидание' ?
-                                    false :
-                                    true
-                                }>
-                                Отмена
-                              </Button>
-                              :
-                              ''
-                          )}
+                        )}
+                      </div> :
+                      <div className='client-order-box'>
+                        У вас нет ещё ни одного заказа :(
                       </div>
-                    )}
-                  </div>
+                  }
                 </div>
                 <MyModal
                   visible={modal}

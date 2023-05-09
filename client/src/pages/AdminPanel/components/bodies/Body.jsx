@@ -9,6 +9,8 @@ import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
 import { NavAdmin } from "../NavAdmin";
+import PostFilter from "../Filter";
+import { usePosts } from "../../../../hooks/useClient";
 
 
 
@@ -19,6 +21,9 @@ const Body = observer(() => {
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
+
+  const sortedAndSearchPost = usePosts(bodies, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
 
 
   const createBody = async (newPost) => {
@@ -71,8 +76,18 @@ const Body = observer(() => {
         >
           <BodyEdit getClientList={getBodyList} edit={editBody} post={body} />
         </MyModal>
-
-        <BodyList remove={removeBody} view={view} posts={bodies} title="Кузова" />
+        <PostFilter
+          filter={filter}
+          setFilter={setFilter}
+          optionsSort={[
+            { value: 'name', name: 'Название' },
+          ]}
+          optionsSearh={[
+            { value: 'id', name: 'ID' },
+            { value: 'name', name: 'Название' },      
+          ]}
+        />
+        <BodyList remove={removeBody} view={view} posts={sortedAndSearchPost} title="Кузова" />
         <Pages
           postTotalPages={totalPages} page={queryParams.page} changePage={changePage} getList={getBodyList}
         />
