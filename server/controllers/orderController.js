@@ -1,5 +1,7 @@
 const ApiError = require('../error/apiError');
 const { Order, Status } = require('../models/models')
+const {Sequelize} = require('sequelize');
+
 
 class OrderController {
     async create(req, res, next) {
@@ -39,6 +41,16 @@ class OrderController {
         return res.json(order)
     }
 
+    async getByDate(req, res) {
+        try {
+            const { dateTime } = req.query;
+            const order = await Order.findAndCountAll({ where: Sequelize.where(Sequelize.fn('date', Sequelize.col('dateTime')), dateTime)});
+            return res.json(order)
+        } catch (error) {
+            return res.json(error.message)
+        }
+    }
+
     async remove(req, res) {
         const { id } = req.body;
         const order = await Order.destroy({ where: { id } });
@@ -62,15 +74,20 @@ class OrderController {
         await order.save()
     }
 
-    async cancel(req, res) {
-        const { id } = req.body;
-        const order = await Order.findOne({ where: { id } });
-        const status = await Status.findOne({ where: { name: "Отменен" } });
-        order.set({     
-            statusId: status.id,           
-        })
-        await order.save()
-        return res.json(order)
+    async changeStatus(req, res) {
+        try {
+            const { id, statusName } = req.body;
+            const order = await Order.findOne({ where: { id } });
+            const status = await Status.findOne({ where: { name: statusName } });
+            order.set({
+                statusId: status.id,
+            })
+            await order.save()
+            return res.json(order)
+        } catch (error) {
+            next(ApiError.badRequest(error.message))
+        }
+
     }
 }
 

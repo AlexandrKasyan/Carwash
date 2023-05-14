@@ -41,6 +41,7 @@ const UserList = ({ posts, title, remove, view, roles, washes }) => {
                     <tr>
                         <th>id</th>
                         <th>Email</th>
+                        <th>Дата регистрации</th>
                         <th>Роль</th>
                     </tr>
                 </thead>
@@ -55,6 +56,7 @@ const UserList = ({ posts, title, remove, view, roles, washes }) => {
                                 key={post.id}>
                                 <td>{post.id}.</td>
                                 <td>{post.email}</td>
+                                <td>{post.createdAt.slice(0,10)}</td>
                                 <td>{roles.map((role) => role.id === post.roleId ? `${role.role}` : "")}</td>
                             </tr>
                         )}

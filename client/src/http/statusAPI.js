@@ -11,6 +11,14 @@ export const getStatuses = async (limit, page) => {
     return data
 }
 
+export const getStatus = async (id) => {
+    const {data} = await  $authHost.get('api/status/getone', {
+        params:{
+            id:id
+        }
+    })
+    return data
+}
 export const remove = async (id) => {
     await  $authHost.post('api/status/remove', {id})
 }

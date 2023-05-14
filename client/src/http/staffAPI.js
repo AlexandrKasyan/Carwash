@@ -12,6 +12,15 @@ export const getStaff = async (limit, page) => {
     return data
 }
 
+export const getEmployee = async (id) => {
+    const {data} = await  $authHost.get('api/staff/employeeByUserId', {
+        params:{
+            id:id
+        }
+    })
+    return data
+}
+
 export const remove = async (id) => {
     await  $authHost.post('api/staff/remove', {id})
 }

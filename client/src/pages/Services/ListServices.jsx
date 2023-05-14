@@ -42,7 +42,7 @@ const ListServices = () => {
                             </div>
                             <div className='service-name'>{service.name}</div>
                             <div className='service-cost'>От {service.cost}р.</div>
-                            {user.isAuth?
+                            {user.isAuth && !user.user.role==='ADMIN' && user.user.role==='STAFF'?
                                 <SelectServiceButton service={service}>Выбрать</SelectServiceButton>: ''
                             }
 

@@ -1,0 +1,69 @@
+.employee-info {
+    padding: 1rem;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(172, 172, 172);
+    border-radius: 0.7em;
+    box-shadow: 0.1rem 0.1rem rgb(99, 99, 99), -0.5em 0 .4em rgba(233, 233, 233, 0.788);
+    width: fit-content;
+    height: fit-content;
+
+}
+
+.order-box {
+    padding: 1rem;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(172, 172, 172);
+    border-radius: 0.7em;
+    box-shadow: 0.1rem 0.1rem rgb(99, 99, 99), -0.5em 0 .4em rgba(233, 233, 233, 0.836);
+
+}
+
+.order-row {
+    margin: 0 1rem 0 1rem;
+    border-bottom: 1px solid rgb(228, 228, 228);
+    line-height: 2rem;
+    padding: 0.5rem;
+    vertical-align: middle;
+}
+
+.order-row:hover {
+    background-color: rgba(241, 241, 241, 0.829);
+    border-radius: 0.5rem;
+}
+
+.order-row:active {
+    background-color: rgba(216, 216, 216, 0.829);
+}
+
+.order-control-date {
+    margin: 0 1rem 0 1rem;
+    padding: 0.5rem;
+}
+
+.order-control-date div {
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.order-control-date div:hover {
+    background-color: rgba(241, 241, 241, 0.829);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.order-control-sort {
+    border-bottom: 1px solid rgb(228, 228, 228);
+    line-height: 2rem;
+    margin: 0 1rem 0 1rem;
+    padding: 0.5rem;
+}
+
+.order-control-sort div {
+    padding: 0.5rem;
+}
+
+.order-control-sort div:hover {
+    background-color: rgba(241, 241, 241, 0.829);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}

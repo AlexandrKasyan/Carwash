@@ -68,7 +68,6 @@ const Order = observer(() => {
       })
       return orderElement
     })
-    console.log(orderArrayWithStatuses)
     setTotalPages(getPagesCount(orderData.count, queryParams.limit))
     setOrders(orderArrayWithStatuses)
   }

@@ -98,11 +98,12 @@ const Users = observer(() => {
           setFilter={setFilter}
           optionsSort={[
             { value: 'email', name: 'Email' },
+            { value: 'roleId', name: 'Роли' },
+            { value: 'createdAt', name: 'Дате регистрации' },
           ]}
           optionsSearh={[
             { value: 'id', name: 'ID' },
             { value: 'email', name: 'Название' },
-            { value: 'role', name: 'Роль' },      
           ]}
         />
         <UserList remove={removePost} washes={washes} roles={roles} view={view} posts={sortedAndSearchPost} title="Пользователи" listNameKeys={[]} />

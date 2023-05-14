@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom'
 import { ADMIN_PANEL_BODY, ADMIN_PANEL_BRAND, ADMIN_PANEL_CAR, ADMIN_PANEL_CARWASHES, ADMIN_PANEL_CLIENTS, ADMIN_PANEL_CLIENT_CAR, ADMIN_PANEL_DISCOUNT, ADMIN_PANEL_ORDER, ADMIN_PANEL_ORDER_SERVICE_RELATION, ADMIN_PANEL_POST, ADMIN_PANEL_ROLE, ADMIN_PANEL_STAFF, ADMIN_PANEL_STATUS, ADMIN_PANEL_USERS, ADMIN_PANEL_WASH_SERVECE } from '../../../utils/const';
+import LogOut from '../../../components/UI/buttons/LogOut';
 
 export const NavAdmin = observer(() => {
     const navigate = useNavigate();
@@ -107,6 +108,7 @@ export const NavAdmin = observer(() => {
             >
                 Отношение услуг
             </Button>
+            <LogOut/>
         </div>
     )
 });

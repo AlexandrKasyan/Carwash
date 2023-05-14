@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Context } from '..'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { ACCOUNT, ADMIN_ROUTE, CONTACTS, HOME_ROUTE, LOGIN_ROUTE, WASH_SERVECE } from '../utils/const';
+import { ACCOUNT, ADMIN_ROUTE, CONTACTS, HOME_ROUTE, LOGIN_ROUTE, STAFF_PANEL, WASH_SERVECE } from '../utils/const';
 import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react-lite';
 import { NavLink, useNavigate } from 'react-router-dom'
@@ -34,28 +34,29 @@ export const NavBar = observer(() => {
                     <Nav>
                         {
                             user.user.role === "ADMIN" ?
-                                <Button
-                                    variant={'outline-light'}
-                                    onClick={() => navigate(ADMIN_ROUTE)}
-                                    className="" >
-                                    Админ панель
-                                </Button>
+                                <NavLink className="user-email-nav" to={ADMIN_ROUTE}>
+                                    <div className="user-email-nav-first-s">{user.user.email[0].toUpperCase()}</div>
+                                    <div className="user-email-nav-full">{user.user.email}</div>
+                                </NavLink>
                                 : <div></div>
                         }
                         {
                             user.user.role === "STAFF" ?
-                                <Button
-                                    variant={'outline-light'}
-                                    onClick={() => navigate(ADMIN_ROUTE)}
-                                    className="" >
-                                    Админ панель
-                                </Button>
+                                <NavLink className="user-email-nav" to={STAFF_PANEL}>
+                                    <div className="user-email-nav-first-s">{user.user.email[0].toUpperCase()}</div>
+                                    <div className="user-email-nav-full">{user.user.email}</div>
+                                </NavLink>
                                 : <div></div>
                         }
-                        <NavLink className="user-email-nav" to={ACCOUNT}>
-                            <div className="user-email-nav-first-s">{user.user.email[0]}</div>
-                            <div className="user-email-nav-full">{user.user.email}</div>
-                        </NavLink>
+                        {
+                            user.user.role === "USER" ?
+                                <NavLink className="user-email-nav" to={ACCOUNT}>
+                                    <div className="user-email-nav-first-s">{user.user.email[0].toUpperCase()}</div>
+                                    <div className="user-email-nav-full">{user.user.email}</div>
+                                </NavLink>
+                                : <div></div>
+                        }
+
                     </Nav>
                     :
                     <Nav className="btn-authorization" style={{ color: 'white' }}>

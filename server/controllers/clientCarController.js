@@ -2,7 +2,7 @@ const ApiError = require('../error/apiError');
 const { ClientCar } = require('../models/models')
 
 class ClientController {
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             const { clientId, carId } = req.body;
             const clientCar = await ClientCar.create({ clientId, carId })
@@ -13,7 +13,7 @@ class ClientController {
 
     }
 
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             let { clientId, page, limit } = req.query;
             page = page || 1;
@@ -34,7 +34,7 @@ class ClientController {
 
     }
 
-    async getOne(req, res) {
+    async getOne(req, res, next) {
         try {
             const { id } = req.query;
             const clientCar = await ClientCar.findOne({ where: { id } });
@@ -45,7 +45,7 @@ class ClientController {
 
     }
 
-    async getClientCars(req, res) {
+    async getClientCars(req, res, next) {
         try {
             const { clientId } = req.query;
             const clientCars = await ClientCar.findAll({ where: { clientId: clientId } });
@@ -56,7 +56,7 @@ class ClientController {
 
     }
 
-    async remove(req, res) {
+    async remove(req, res, next) {
         try {
             const { id } = req.body;
             const clientCar = await ClientCar.destroy({ where: { id } });
@@ -70,7 +70,7 @@ class ClientController {
 
     }
 
-    async removeByCarId(req, res) {
+    async removeByCarId(req, res, next) {
         try {
             const { id } = req.body;
             const clientCar = await ClientCar.destroy({ where: { carId: id } });
@@ -86,7 +86,7 @@ class ClientController {
     }
 
 
-    async edit(req, res) {
+    async edit(req, res, next) {
         try {
             const { id, clientId, carId } = req.body;
             const clientCar = await ClientCar.findOne({ where: { id } });

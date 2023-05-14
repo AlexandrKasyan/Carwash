@@ -5,7 +5,7 @@ import { Context } from '../../../..'
 import MyModal from '../../../../components/MyModal/MyModal'
 import { getCarsByListId } from '../../../../http/carAPI'
 import { getClientCars } from '../../../../http/clientCarAPI'
-import { cancelClientOrder, getClientOrders } from '../../../../http/orderAPI'
+import { changeClientOrderStatus, getClientOrders } from '../../../../http/orderAPI'
 import { getOrderServicesId } from '../../../../http/orderServiceRelationAPI'
 import { getStatuses } from '../../../../http/statusAPI'
 import { getWashService } from '../../../../http/washServiceAPI'
@@ -76,7 +76,7 @@ const ClientOrder = observer(() => {
   }
 
   const cancelOrder = async (orderid) => {
-    const orderEdit = await cancelClientOrder(orderid)
+    const orderEdit = await changeClientOrderStatus(orderid, 'Отменён')
 
     const newList = order.orders.map(o => {
       if (o.id === orderEdit.id) {

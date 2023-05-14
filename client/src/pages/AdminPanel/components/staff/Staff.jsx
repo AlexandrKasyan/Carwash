@@ -24,10 +24,10 @@ const Staff = observer(() => {
   const [filter, setFilter] = useState({ sort: '', query: '', search: 'id', date1: '', date2: '' });
 
   const sortedAndSearchPost = usePosts(staffs, filter.sort, filter.query, filter.search, filter.date1, filter.date2);
-  
+
 
   const createStaff = async (newPost) => {
-    await create(newPost.name, newPost.position, newPost.phoneNumber, newPost.userId, newPost.postId);
+    await create(newPost.name, newPost.phoneNumber, newPost.position, newPost.userId, newPost.postId);
     await getStaff();
     setModal(false);
   }

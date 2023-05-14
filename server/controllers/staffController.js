@@ -8,7 +8,7 @@ class StaffController {
     }
 
     async getAll(req, res) {
-        let {page, limit} = req.query
+        let { page, limit } = req.query
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
@@ -19,6 +19,11 @@ class StaffController {
     async getOne(req, res) {
         const { id } = req.query;
         const staff = await Staff.findOne({ where: { id } });
+        return res.json(staff)
+    }
+    async getEmployeeByUserId(req, res) {
+        const { id } = req.query;
+        const staff = await Staff.findOne({ where: { userId: id } });
         return res.json(staff)
     }
 

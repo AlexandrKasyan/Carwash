@@ -18,10 +18,10 @@ const Auth = observer(() => {
 
     const click = async () => {
         try {
-            let data; 
+            let data;
             if (isLogin) {
                 data = await login(email, password);
-                
+
             } else {
                 data = await registration(email, password);
             }
@@ -30,7 +30,7 @@ const Auth = observer(() => {
             navigate(HOME_ROUTE)
         } catch (e) {
             alert(e.response.data.message)
-         }
+        }
     }
 
     return (
@@ -43,9 +43,10 @@ const Auth = observer(() => {
                 <Form className="d-flex flex-column">
                     <Form.Control
                         className="mt-3"
-                        type="email"
+                        type="text"
                         placeholder='Введите e-mail'
                         value={email}
+                        required
                         onChange={e => setEmail(e.target.value)}
                     />
                 </Form>
@@ -55,6 +56,7 @@ const Auth = observer(() => {
                         placeholder='Введите пароль'
                         type="password"
                         value={password}
+                        required
                         onChange={e => setPassword(e.target.value)}
                     />
                 </Form>

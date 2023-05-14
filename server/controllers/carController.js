@@ -1,7 +1,8 @@
+const ApiError = require('../error/apiError');
 const { Car } = require('../models/models')
 
 class CarController {
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             const { number, yearRelease, bodyId, carBrandId } = req.body;
             const car = await Car.create({ number, yearRelease, bodyId, carBrandId })
@@ -10,7 +11,7 @@ class CarController {
             next(ApiError.badRequest(error.message))
         }
     }
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             let cars, page, limit;
             page = page || 1;
@@ -23,7 +24,7 @@ class CarController {
         }
     }
 
-    async getAllCarsByListId(req, res) {
+    async getAllCarsByListId(req, res, next) {
         try {
             const { listId } = req.body;
             let cars = []
@@ -38,7 +39,7 @@ class CarController {
         }
     }
 
-    async getOne(req, res) {
+    async getOne(req, res, next) {
         try {
             const { id } = req.query;
             console.log(id)
@@ -49,7 +50,7 @@ class CarController {
         }
     }
 
-    async remove(req, res) {
+    async remove(req, res, next) {
         try {
             const { id } = req.body;
             const car = await Car.destroy({ where: { id } });
@@ -62,7 +63,7 @@ class CarController {
         }
     }
 
-    async edit(req, res) {
+    async edit(req, res, next) {
         try {
             const { id, number, yearRelease, bodyId, carBrandId } = req.body;
             const car = await Car.findOne({ where: { id } });
