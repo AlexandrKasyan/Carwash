@@ -8,7 +8,17 @@ export const getOrderServiceRelations = async (limit, page) => {
             page: page
         }
     })
-    console.log(data)
+    return data
+}
+
+
+export const getNumberServicesByDate = async (dateStart, dateEnd) => {
+    const {data} = await  $authHost.get('api/orderServiceRelations/getByDate', {
+        params:{
+            dateStart: dateStart,
+            dateEnd: dateEnd,
+        }
+    })
     return data
 }
 

@@ -1,10 +1,23 @@
+.services-wrap {
+    margin-top: 3rem;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .service-box {
     margin: 2rem;
     width: 30rem;
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(223, 223, 223);
     border-radius: 0.3em;
-    box-shadow: 0.00rem 0.1rem rgb(99, 99, 99), -0.5em 0 .4em rgb(233, 233, 233);
+    box-shadow: 0.00rem 0.1rem rgb(99, 99, 99), -0.1em 0 .2em rgb(233, 233, 233);
+
+}
+
+.service-box:hover {
+    box-shadow: .3em .3em 2em rgb(233, 233, 233), -0.3em -0.3em 2em rgb(233, 233, 233);
+    transition: .1s ease;
 }
 
 .service-list {
@@ -37,15 +50,17 @@
 
 .service-img:hover .service-description {
     opacity: 1;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     cursor: pointer;
 }
 
 .service-description {
+    text-align:justify;
     opacity: 0;
     height: 20rem;
     padding: 1rem;
     font-family: 'Segoe UI';
+    font-size: 0.9em;
     color: #fff;
     transition: .2s ease;
 }

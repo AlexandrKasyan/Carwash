@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ClientForm from "./ClientForm";
 import ClientList from "./ClientList";
 import PostFilter from "../Filter";
@@ -15,6 +15,8 @@ import { getAllUsers } from "../../../../http/userAPI";
 import { HiOutlineDocumentReport } from 'react-icons/hi';
 import { MdCreate } from "react-icons/md";
 import { createReport, downloadReport } from "../../../../http/reportAPI";
+import { Context } from "../../../..";
+import { getEmployee } from "../../../../http/staffAPI";
 
 
 
@@ -27,6 +29,7 @@ const Clients = observer(() => {
   const [modalEdit, setModalEdit] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [queryParams, setQueryParams] = useState({ limit: 9, page: 1 });
+  const { user } = useContext(Context)
 
 
   const createClient = async (newPost) => {
@@ -88,6 +91,8 @@ const Clients = observer(() => {
   }
 
   const report = async () => {
+    const employee = await getEmployee(user.user.id)
+    const nameReport = 'Клиенты'
     const columns = [
       { header: 'id', key: 'id', width: 5 },
       { header: 'Дата регистрации', key: 'createdAt', width: 17, style: { numFmt: 'dd/mm/yyyy' } },
@@ -95,10 +100,12 @@ const Clients = observer(() => {
       { header: 'Email', key: 'email', width: 32 },
       { header: 'Телефон', key: 'phoneNumber', width: 17 },
       { header: 'Скидка', key: 'discount', width: 32 },
-  ]
-  const fileName = await createReport(sortedAndSearchPost, columns)
-  await downloadReport(fileName)
-}
+    ]
+    if (employee.name) {
+      const fileName = await createReport(sortedAndSearchPost, columns, nameReport, employee)
+      await downloadReport(fileName)
+    }
+  }
 
 
   return (

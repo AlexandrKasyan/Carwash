@@ -11,7 +11,7 @@ export const getDiscounts = async (limit, page) => {
     return data
 }
 
-export const getDiscount = async (id) => {
+export const getClientDiscount = async (id) => {
     const { data } = await $authHost.get('api/discount/getDiscount', {
         params: {
             id: id
@@ -30,5 +30,7 @@ export const create = async (name, discountPercentage, numberVisits) => {
 }
 
 export const edit = async (id, name, discountPercentage, numberVisits) => {
-    await $authHost.post('api/discount/edit', { id, name, discountPercentage, numberVisits })
+    const data = await $authHost.post('api/discount/edit', { id, name, discountPercentage, numberVisits })
+    return data
+
 }

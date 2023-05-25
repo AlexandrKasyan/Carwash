@@ -46,7 +46,7 @@ const Order = sequelize.define('order', {
 const WashService = sequelize.define('wash_service', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },//название услуги
-    description: { type: DataTypes.STRING },
+    description: { type: DataTypes.TEXT },
     cost: { type: DataTypes.DOUBLE, allowNull: false },
     img: { type: DataTypes.STRING, allowNull: false }
     

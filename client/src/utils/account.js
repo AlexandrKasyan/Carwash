@@ -1,6 +1,6 @@
 import { getCarWash } from "../http/carWashAPI"
 import { getClientInfoByUserId } from "../http/clientAPI"
-import { getDiscount } from "../http/discountAPI"
+import { getClientDiscount } from "../http/discountAPI"
 
 export const fetchClientData = async (id) => {
     const clientData = await getClientInfoByUserId(id)
@@ -15,7 +15,7 @@ export const fetchCarWashData = async (id) => {
 }
 
 export const fetchDiscountData = async (id) => {
-    const discountData = await getDiscount(id)
+    const discountData = await getClientDiscount(id)
     if (!discountData) return
     return discountData 
 }

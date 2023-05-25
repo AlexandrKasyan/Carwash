@@ -6,7 +6,11 @@ const Home = () => {
 
 
     return (
-        <div className="wrap-home">
+        <div className="wrap-home mt-5">
+            <h3 style={{textAlign: 'center', margin: '5rem 0 2rem ', lineHeight: '3rem'}}>
+                <div>Web-приложение для сети автомоек</div>
+                <div>Исполнитель: Касьян Александр </div>
+            </h3>
             <div className="our-advantages">
                 <Container>
                     <h2 className="our-advantages">Наши преимущества</h2>

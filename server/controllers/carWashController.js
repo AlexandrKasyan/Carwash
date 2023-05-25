@@ -6,13 +6,13 @@ class CarModelController {
         const carWash = await CarWash.create({ name, address, number })
         return res.json(carWash);
     }
-    
+
     async getAll(req, res) {
-        let carWashes, page, limit;
+        let { page, limit } = req.query;
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
-        carWashes = await CarWash.findAndCountAll({ limit, offset })
+        const carWashes = await CarWash.findAndCountAll({ limit, offset })
 
         return res.json(carWashes)
     }
@@ -26,12 +26,12 @@ class CarModelController {
         const { id, name, number, address } = req.body;
         const carWash = await CarWash.findOne({ where: { id } });
         carWash.set({
-          name: name,
-          number: number,
-          address: address,
+            name: name,
+            number: number,
+            address: address,
         })
         await carWash.save()
-      }
+    }
 
     async remove(req, res) {
         const { id } = req.body;

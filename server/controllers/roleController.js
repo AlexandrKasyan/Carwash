@@ -8,11 +8,11 @@ class RoleController {
         return res.json(namerole);
     }
     async getAll(req, res) {
-        let roles, page, limit;
+        let { page, limit } = req.query;
         page = page || 1;
         limit = limit || 100;
         let offset = page * limit - limit;
-        roles = await Role.findAndCountAll({ limit, offset })
+        const roles = await Role.findAndCountAll({ limit, offset })
 
         return res.json(roles)
     }
@@ -21,12 +21,12 @@ class RoleController {
         const { id, role } = req.body;
         const roleEdit = await Role.findOne({ where: { id } });
         roleEdit.set({
-          role: role
+            role: role
         })
         await roleEdit.save()
-      }
+    }
 
-      async remove(req, res) {
+    async remove(req, res) {
         const { id } = req.body;
         const role = await Role.destroy({ where: { id } });
         if (!role)

@@ -51,7 +51,7 @@ const PersonalClientCar = observer(() => {
             carsId.push(e.carId)
         })
 
-        const carsList = await getListCarByListId(carsId)
+        const carsList = await getCarsByListId(carsId)
         client.setClientCars(carsList)
         setCars(carsList)
 
@@ -60,11 +60,6 @@ const PersonalClientCar = observer(() => {
         const brandsList = await getBrands()
         setBrands(brandsList.rows)
 
-    }
-
-    const getListCarByListId = async (carsListId) => {
-        const cars = await getCarsByListId(carsListId)
-        return cars
     }
 
     const removeUserCar = async (carId) => {
@@ -83,7 +78,7 @@ const PersonalClientCar = observer(() => {
 
     return (
 
-        <Container>
+        <Container className='mt-5'>
             {loading ? <Spinner animation="border" className='user-info-spiner'>
                 <span className="visually-hidden">Loading...</span>
             </Spinner> :
@@ -138,7 +133,7 @@ const PersonalClientCar = observer(() => {
                                                 visible={modal}
                                                 setVisible={setModal}
                                             >
-                                                <CarForm
+                                                <CarForm 
                                                     create={createCarByModal}
                                                 />
                                             </MyModal>

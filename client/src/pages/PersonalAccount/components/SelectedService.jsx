@@ -3,8 +3,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Button, Container, Dropdown, Form, Spinner } from 'react-bootstrap'
 import { AiOutlineCar, AiOutlineDelete } from 'react-icons/ai'
 import { Context } from '../../..'
+import { edit } from '../../../http/discountAPI'
 import { create as createOrder } from '../../../http/orderAPI'
 import { create as createOrderServiceRelation } from '../../../http/orderServiceRelationAPI'
+import ClientDiscount from './ClientDiscount'
 import ClientForm from './ClientForm'
 import ClientInfo from './ClientInfo'
 import NavBarAccount from './NavBarAccount'
@@ -14,6 +16,7 @@ const SelectedService = observer(() => {
   const [loading, setLoading] = useState(true);
 
   const { client } = useContext(Context)
+  const { discount } = useContext(Context)
   const { order } = useContext(Context)
 
   useEffect(() => {
@@ -26,13 +29,15 @@ const SelectedService = observer(() => {
   const createClientOrder = async () => {
     if (client.selectedCar.id) {
       if (selectedServices.selectedServices.length) {
-        const clientOrder = await createOrder(order.newOrder.dateTime, selectedServices.generalPrice, 2, client.client.id, client.selectedCar.id)
+        const clientOrder = await createOrder(order.newOrder.dateTime + ':00.000Z', selectedServices.generalPrice, 2, client.client.id, client.selectedCar.id)
+        console.log(order.newOrder.dateTime)
         await selectedServices.selectedServices.forEach(async (service) => {
           await createOrderServiceRelation(service.id, clientOrder.id)
         })
         selectedServices.setSelectedServices([])
         order.setOrders([...order.orders, clientOrder])
         selectedServices.setGeneralPrice(0)
+        addDiscountPercentage()
       }
       else {
         alert('Ваша корзина пуста')
@@ -57,13 +62,32 @@ const SelectedService = observer(() => {
     selectedServices.setGeneralPrice(price)
   }
 
+  const addDiscountPercentage = async () => {
+    let discountPercentage = discount.discount.discountPercentage
+    let discountName = "Отсутствует"
+
+    if (discountPercentage < 10)
+      discountName = 'Обычная'
+    if (discountPercentage >= 10 && discountPercentage >= 30)
+      discountName = 'Повышеная'
+    if (discountPercentage >= 31 && discountPercentage >= 50)
+      discountName = 'Высокая'
+    if (discountPercentage >= 51 && discountPercentage >= 90)
+      discountName = 'Супер'
+    if (discountPercentage >= 91 && discountPercentage >= 100)
+      discountName = 'Супер пупер'
+
+    const editDiscount = await edit(discount.discount.id, discountName, discountPercentage + 1, discount.discount.numberVisits + 1)
+    discount.setDiscount(editDiscount)
+  }
+
   const removeService = (id) => {
     selectedServices.setSelectedServices(selectedServices.selectedServices.filter(n => n.id !== id))
     generalPrice();
   }
 
   return (
-    <Container>
+    <Container className='mt-5'>
       {loading ? <Spinner animation="border" className='user-info-spiner'>
         <span className="visually-hidden">Loading...</span>
       </Spinner> :
@@ -74,9 +98,16 @@ const SelectedService = observer(() => {
                 <ClientInfo />
                 <div>
                   <NavBarAccount />
+
+                  <ClientDiscount />
                   {client.clientCars.length ?
                     <div className='selected-services'>
-                      <h4>Ваш заказ</h4>
+                      <h4
+                        style={{
+                          textAlign: "center",
+                          marginBottom: '1rem'
+                        }}
+                      >Ваш заказ</h4>
                       {selectedServices.selectedServices.map((services) =>
                         <div
                           className='service-row'
@@ -113,6 +144,7 @@ const SelectedService = observer(() => {
                         <div className="generalPrice">
                           Итого: {selectedServices.generalPrice}р.
                         </div>
+
                         <Button
                           className='confirm-order'
                           onClick={() => createClientOrder()}

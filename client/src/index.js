@@ -2,6 +2,7 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import ClientStore from './store/ClientStore';
+import DiscountStore from './store/DiscountStore';
 import EmployeeStore from './store/EmpoyeeStore';
 import OrderStore from './store/OrderStore';
 import ServicesStore from './store/ServicesStore';
@@ -16,7 +17,9 @@ root.render(
         selectedServices: new ServicesStore(),
         client: new ClientStore(),
         order: new OrderStore(),
-        employee: new EmployeeStore()
+        employee: new EmployeeStore(),
+        discount: new DiscountStore()
+        
     }}>
         <App />
     </Context.Provider>

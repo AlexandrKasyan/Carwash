@@ -1,13 +1,8 @@
 import { $authHost } from ".";
 
 
-export const getBodies = async (limit, page) => {
-    const { data } = await $authHost.get('api/carBody/', {
-        params: {
-            limit: limit,
-            page: page
-        }
-    })
+export const getBodies = async () => {
+    const { data } = await $authHost.get('api/carBody/')
     return data
 }
 

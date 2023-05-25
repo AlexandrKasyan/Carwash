@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import OrderForm from "./OrderForm";
 import OrderList from "./OrderList";
 import MyModal from "../../../../components/MyModal/MyModal";
@@ -16,9 +16,12 @@ import PostFilter from "../Filter";
 import { createReport, downloadReport } from "../../../../http/reportAPI";
 import { MdCreate } from "react-icons/md";
 import { HiOutlineDocumentReport } from "react-icons/hi";
+import { Context } from "../../../..";
+import { getEmployee } from "../../../../http/staffAPI";
 
 
 const Order = observer(() => {
+  const { user } = useContext(Context)
   const [orders, setOrders] = useState([]);
   const [order, setOrder] = useState({});
   const [modal, setModal] = useState(false);
@@ -89,6 +92,8 @@ const Order = observer(() => {
   }
 
   const report = async () => {
+    const employee = await getEmployee(user.user.id)
+    const nameReport = 'Заказы'
     const columns = [
       { header: 'id', key: 'id', width: 5 },
       { header: 'Дата создания заказа', key: 'createdAt', width: 23, style: { numFmt: 'dd/mm/yyyy' } },
@@ -97,8 +102,10 @@ const Order = observer(() => {
       { header: 'Сумма', key: 'generalPrice', width: 8 },
       { header: 'Статус', key: 'status', width: 6 }
     ]
-    const fileName = await createReport(sortedAndSearchPost, columns)
-    await downloadReport(fileName)
+    if (employee.name) {
+      const fileName = await createReport(sortedAndSearchPost, columns, nameReport, employee)
+      await downloadReport(fileName)
+    }
   }
 
   return (

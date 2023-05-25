@@ -59,41 +59,6 @@
 }
 
 
-.user-email-nav {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    border-radius: 2rem;
-    height: 2.4em;
-    padding: 0.2em;
-}
-
-.user-email-nav:hover {
-    color: white;
-    text-decoration: none;
-    background-color: rgb(136, 136, 136);
-}
-
-.user-email-nav:active {
-    color: white;
-    text-decoration: none;
-    background-color: rgb(99, 99, 99);
-}
-
-.user-email-nav-first-s {
-    margin-right: 1em;
-    padding: 0.1em 0 0 0.65em;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 2rem;
-    color: black;
-    width: 2em;
-    height: 2em;
-}
-
-.user-email-nav-full {
-    padding: 0.15em 1em 0 0;
-}
 
 .client-form {
     padding: 1em;
@@ -141,18 +106,18 @@
 }
 
 .client-order-box {
-    grid-column:2/3;
+    grid-column: 2/3;
     grid-row: 4/5;
     display: flex;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
-    padding: 2em;
+    padding: 1rem 2rem;
     border: 1px solid rgb(172, 172, 172);
     border-radius: 0.7em;
     box-shadow: 0.1rem 0.1rem rgb(99, 99, 99), -0.5em 0 .4em rgb(233, 233, 233);
 }
 
-.client-order-row{
+.client-order-row {
     display: flex;
     justify-content: space-between;
     background-color: #f3f3f3;
@@ -162,7 +127,7 @@
     margin-bottom: 0.5rem;
 }
 
-.client-order-row-info{
+.client-order-row-info {
     display: flex;
     justify-content: space-between;
     width: 80%;
@@ -184,14 +149,17 @@
 .user-account-discount {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
-    display: flex;
-    justify-content: space-evenly;
     background-color: rgb(255, 255, 255);
-    padding: 1rem;
+    padding: 1rem 2rem;
     border: 1px solid rgb(172, 172, 172);
     border-radius: 0.7em;
     box-shadow: 0.1rem 0.1rem rgb(99, 99, 99), -0.5em 0 .4em rgb(233, 233, 233);
+}
 
+.discount-info {
+    display: flex;
+    justify-content: space-between;
+    line-height: 2.5rem;
 }
 
 
@@ -298,6 +266,7 @@
     touch-action: manipulation;
     vertical-align: top;
     transition: box-shadow 0.2s;
+    display: flex;
 }
 
 .btn-nav-bar-account:focus-visible {
@@ -319,5 +288,18 @@
     border-color: #eee;
     color: #444;
     cursor: not-allowed;
-    
+
+}
+
+.account-basket-count {
+    color: rgb(44, 44, 44);
+    margin: 0.2rem 0rem 0.2rem .3rem;
+    border: 1px solid rgb(224, 224, 224);
+    background-color: #ececec;
+    border-radius: 100%;
+    height: 1.6rem;
+    width: 1.6rem;
+    line-height: 1.4rem;
+    vertical-align: middle;
+    text-align: center;
 }

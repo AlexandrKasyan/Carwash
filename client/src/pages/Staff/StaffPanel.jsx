@@ -6,7 +6,7 @@ import './style.css'
 
 const StaffPanel = () => {
   return (
-    <Container>
+    <Container className='mt-4'>
       <Row className='mt-4'>
         <Col><EmployeeInformation /></Col>
         <Col md={9}><Order  /></Col>

@@ -2,45 +2,69 @@ const { Discount } = require('../models/models')
 
 class DiscountController {
     async create(req, res) {
-        const { name, discountPercentage, numberVisits } = req.body;
-        const discount = await Discount.create({ name, discountPercentage, numberVisits })
-        return res.json(discount);
+        try {
+            const { name, discountPercentage, numberVisits } = req.body;
+            const discount = await Discount.create({ name, discountPercentage, numberVisits })
+            return res.json(discount);
+        } catch (error) {
+            return res.json(error.message)
+        }
+
     }
 
     async getAll(req, res) {
-        let {page, limit} = req.query
-        page = page || 1;
-        limit = limit || 9;
-        let offset = page * limit - limit;
-        const discounts = await Discount.findAndCountAll({ limit, offset })
+        try {
+            let { page, limit } = req.query
+            page = page || 1;
+            limit = limit || 9;
+            let offset = page * limit - limit;
+            const discounts = await Discount.findAndCountAll({ limit, offset })
 
-        return res.json(discounts)
+            return res.json(discounts)
+        } catch (error) {
+            return res.json(error.message)
+        }
+
     }
     async getDiscount(req, res) {
-        const { id } = req.query;
-        const discount = await Discount.findOne({ where: { id } });
-        return res.json(discount)
+        try {
+            const { id } = req.query;
+            const discount = await Discount.findOne({ where: { id } });
+            return res.json(discount)
+        } catch (error) {
+            return res.json(error.message)
+        }
+
     }
 
     async remove(req, res) {
-        const { id } = req.body;
-        const discount = await Discount.destroy({ where: { id } });
-        if (!discount)
-            return res.json({ message: "ERROR" })
-        else
-            return res.json({ message: "OK" })
+
+        try {
+            const { id } = req.body;
+            const discount = await Discount.destroy({ where: { id } });
+
+        } catch (error) {
+            return res.json(error.message)
+        }
+
     }
 
     async edit(req, res) {
-        const { id, name, discountPercentage, numberVisits} = req.body;
-        const discount = await Discount.findOne({ where: { id } });
-        discount.set({
-            name: name,
-            discountPercentage: discountPercentage,
-            numberVisits: numberVisits,
+        try {
+            const { id, name, discountPercentage, numberVisits } = req.body;
+            const discount = await Discount.findOne({ where: { id } });
+            discount.set({
+                name: name,
+                discountPercentage: discountPercentage,
+                numberVisits: numberVisits,
 
-        })
-        await discount.save()
+            })
+            await discount.save()
+            return res.json(discount)
+        } catch (error) {
+            return res.json(error.message)
+        }
+
     }
 
 }

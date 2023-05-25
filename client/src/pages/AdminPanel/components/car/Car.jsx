@@ -11,6 +11,7 @@ import { getPagesCount } from "../../../../utils/pages";
 import Pages from "../../../../components/UI/buttons/pagination/Pages";
 import { observer } from "mobx-react-lite";
 import { NavAdmin } from "../NavAdmin";
+import './style.css'
 
 
 

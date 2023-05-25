@@ -7,11 +7,11 @@ class ClientController {
         return res.json(client);
     }
     async getAll(req, res) {
-        let clients, page, limit;
+        let { page, limit } = req.query;
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
-        clients = await Client.findAll()
+        const clients = await Client.findAll()
 
         return res.json(clients)
     }

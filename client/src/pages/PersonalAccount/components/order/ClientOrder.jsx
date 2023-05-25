@@ -91,7 +91,7 @@ const ClientOrder = observer(() => {
 
   return (
 
-    <Container>
+    <Container className='mt-5'>
       {loading ? <Spinner animation="border" className='user-info-spiner'>
         <span className="visually-hidden">Loading...</span>
       </Spinner> :
@@ -105,6 +105,12 @@ const ClientOrder = observer(() => {
                   {
                     order.orders.length ?
                       <div className='client-order-box'>
+                        <h4
+                          style={{
+                            textAlign: "center",
+                            marginBottom: '1rem'
+                          }}
+                        >Заказы</h4>
                         {order.orders.map((element) =>
                           <div
                             key={element.id}
@@ -124,11 +130,11 @@ const ClientOrder = observer(() => {
                                 }
                               </div>
 
-                              <div>{ 
-                                element.dateTime?
-                                `${element.dateTime.split("T")[0]} ${element.dateTime.split("T")[1].slice(0, 5)} `:
-                                ''
-                                }
+                              <div>{
+                                element.dateTime ?
+                                  `${element.dateTime.split("T")[0]} ${element.dateTime.split("T")[1].slice(0, 5)} ` :
+                                  ''
+                              }
                               </div>
 
                               <div>{element.generalPrice}р.</div>

@@ -35,7 +35,7 @@ const EmployeeInformation = () => {
 
 
     return (
-        <div className='employee-info'>
+        <div className=' mt-5 employee-info'>
             {loading ?
                 <Spinner animation="border" className='user-info-spiner'>
                     <span className="visually-hidden">Loading...</span>

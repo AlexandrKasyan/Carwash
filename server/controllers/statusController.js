@@ -6,13 +6,13 @@ class StatusController {
         const status = await Status.create({ name })
         return res.json(status);
     }
-    
+
     async getAll(req, res) {
-        let statuses, page, limit;
+        let { page, limit } = req.query;
         page = page || 1;
         limit = limit || 9;
         let offset = page * limit - limit;
-        statuses = await Status.findAndCountAll({ limit, offset })
+        const statuses = await Status.findAndCountAll({ limit, offset })
 
         return res.json(statuses)
     }
@@ -32,7 +32,7 @@ class StatusController {
             return res.json({ message: "OK" })
     }
 
-    
+
     async edit(req, res) {
         const { id, name } = req.body;
         const status = await Status.findOne({ where: { id } });

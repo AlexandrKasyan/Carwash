@@ -7,6 +7,6 @@ router.post('/create', checkRole('USER'), discountController.create)
 router.get('/', checkRole('ADMIN'), discountController.getAll)
 router.get('/getDiscount', checkRole('USER'), discountController.getDiscount)
 router.post('/remove', checkRole('ADMIN'), discountController.remove)
-router.post('/edit', checkRole('ADMIN'), discountController.edit)
+router.post('/edit', checkRole('USER'), discountController.edit)
 
 module.exports = router

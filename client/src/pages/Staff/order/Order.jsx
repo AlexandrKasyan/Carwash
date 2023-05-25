@@ -18,7 +18,7 @@ const Order = observer(() => {
         }
         else
             setLoading(false)
-// eslint-disable-next-line
+        // eslint-disable-next-line
     }, [order])
     const getOrdersEffect = async () => {
         const ordersFethData = await getOrders(queryParams.limit, queryParams.page)
@@ -82,9 +82,11 @@ const Order = observer(() => {
 
     const checkDateEntrance = async (date) => {
         if (date) {
+            setLoading(true)
+            await getOrdersEffect()
             const dateNow = date.toJSON().split('T')[0];
             const orderRequest = await getClientsOrdersByDate(dateNow)
-// eslint-disable-next-line
+            // eslint-disable-next-line
             const newOrderArray = order.orders.filter((orderElement) => {
                 let tpm
                 orderRequest.rows.forEach((orderReq) => {
@@ -94,15 +96,19 @@ const Order = observer(() => {
                 if (tpm) return orderElement
             })
             order.setOrders(newOrderArray)
+            setLoading(false)
         }
         else getOrdersEffect()
     }
 
     return (
-        <div >
-            {loading ? <Spinner /> :
-                <div>
-                    <Card className='order-box'>
+        <div className='mt-5'>
+            <Card className='order-box'>
+                {loading ? <Spinner /> :
+                    <div>
+                        <Row className='order-control-date'>
+                            <h4>Заказы клиентов</h4>
+                        </Row>
                         <Row className='order-control-date'>
                             <Col md={2} onClick={() => checkDateEntrance()}>Все заказы</Col>
                             <Col md={3} onClick={() => checkDateEntrance(new Date())}>Заказы на сегодня</Col>
@@ -136,16 +142,13 @@ const Order = observer(() => {
                                             orderElement.status === "Выполняется" ?
                                                 <Button onClick={() => changeOrderStatus(orderElement, 'Готов')}>Завершить заказ</Button>
                                                 : <></>
-
                                     }
                                 </Col>
                             </Row>
                         )}
-                    </Card>
-                </div>
-
-            }
-
+                    </div>
+                }
+            </Card>
         </div >
     )
 })

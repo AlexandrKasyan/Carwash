@@ -1,3 +1,5 @@
+const { Sequelize } = require('sequelize');
+const { Op } = require("sequelize");
 const ApiError = require('../error/apiError');
 const { OrderServiceRelations } = require('../models/models')
 
@@ -23,6 +25,24 @@ class OrderServiceRelationsController {
         return res.json(orderServiceRelations)
     }
 
+    async getCountByDate(req, res) {
+        try {
+            const { dateStart, dateEnd, washServiceId } = req.query;
+            const order = await OrderServiceRelations.findAndCountAll({
+                where: {
+                    createdAt: {
+                        [Op.between]: [dateStart, dateEnd]
+                    }
+
+                }
+            });
+            return res.json(order)
+        } catch (error) {
+            return res.json(error.message)
+        }
+    }
+
+
     async getAllOrderWashServices(req, res) {
         try {
             const { orderId } = req.query
@@ -31,7 +51,7 @@ class OrderServiceRelationsController {
         } catch (error) {
             next(ApiError.badRequest(error.message))
         }
-        
+
     }
 
     async getOne(req, res) {

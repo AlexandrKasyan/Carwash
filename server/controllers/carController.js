@@ -13,11 +13,11 @@ class CarController {
     }
     async getAll(req, res, next) {
         try {
-            let cars, page, limit;
-            page = page || 1;
+            let { page, limit } = req.query;
+            page = page || 2;
             limit = limit || 9;
             let offset = page * limit - limit;
-            cars = await Car.findAndCountAll({ limit, offset })
+            const cars = await Car.findAndCountAll({ limit, offset })
             return res.json(cars)
         } catch (error) {
             next(ApiError.badRequest(error.message))

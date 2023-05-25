@@ -8,11 +8,7 @@ class CarBrandController {
     }
     
     async getAll(req, res) {
-        let carBrands, page, limit;
-        page = page || 1;
-        limit = limit || 9;
-        let offset = page * limit - limit;
-        carBrands = await CarBrand.findAndCountAll({ limit, offset })
+        const carBrands = await CarBrand.findAndCountAll( )
 
         return res.json(carBrands)
     }

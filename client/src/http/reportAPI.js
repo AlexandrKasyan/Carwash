@@ -1,8 +1,8 @@
 import { $authHost } from ".";
 
 
-export const createReport = async (arrayPosts , columns) => {
-    const { data } = await $authHost.post('api/report/createReport', { arrayPosts, columns })
+export const createReport = async (arrayPosts, columns, nameReport, user) => {
+    const { data } = await $authHost.post('api/report/createReport', { arrayPosts, columns, nameReport, user })
     return data
 }
 

@@ -23,18 +23,20 @@ const ListServices = () => {
     }
 
     return (
-        <div className='service-list'>
+        <div className='service-list'
+        >
             {
                 loading ?
                     <Spinner animation="border" className='user-info-spiner' />
                     :
-                    services.map((service) =>
+                    services.map((service, index) =>
                         <div
                             className={
-                                service.id % 2 === 0 ?
+                                index % 2 === 0 ?
                                     'service-box animation-left' :
                                     'service-box animation-right'
                             }
+
                             key={service.id + 1}>
 
                             <div className='service-img' style={{ backgroundImage: `url(${process.env.REACT_APP_API_URL + service.img})` }}>
@@ -42,8 +44,8 @@ const ListServices = () => {
                             </div>
                             <div className='service-name'>{service.name}</div>
                             <div className='service-cost'>От {service.cost}р.</div>
-                            {user.isAuth && !user.user.role==='ADMIN' && user.user.role==='STAFF'?
-                                <SelectServiceButton service={service}>Выбрать</SelectServiceButton>: ''
+                            {user.isAuth && user.user.role === 'USER' ?
+                                <SelectServiceButton service={service}>Выбрать</SelectServiceButton> : ''
                             }
 
                         </div>
