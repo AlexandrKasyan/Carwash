@@ -17,27 +17,31 @@ const ClientEdit = ({ edit, post }) => {
 
     return (
         <div>
+            Имя
             <Form.Control
                 type="text"
-                placeholder="Имя"
+                placeholder={post.name}
                 onChange={e => setEditPost({ ...editPost, role: e.target.value })}
                 value={editPost.name}
             />
+            Номер телефона
             <Form.Control
                 type="text"
-                placeholder="Номер телефона"
+                placeholder={post.phoneNumber}
                 onChange={e => setEditPost({ ...editPost, phoneNumber: e.target.value })}
                 value={editPost.phoneNumber}
             />
+            Пользователь
             <Form.Control
                 type="text"
-                placeholder="Пользователь"
+                placeholder={post.email}
                 onChange={e => setEditPost({ ...editPost, userId: e.target.value })}
                 value={editPost.userId}
             />
+            Скидка
             <Form.Control
                 type="text"
-                placeholder="Скидка"
+                placeholder={post.discountId}
                 onChange={e => setEditPost({ ...editPost, discountId: e.target.value })}
                 value={editPost.discountId}
             />

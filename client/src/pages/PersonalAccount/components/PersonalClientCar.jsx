@@ -36,7 +36,7 @@ const PersonalClientCar = observer(() => {
                     client.setClient(clientData)
                 }
             }
-        getListClientCar()
+            getListClientCar()
 
         }
         fetchData()
@@ -92,48 +92,50 @@ const PersonalClientCar = observer(() => {
                                     <div className='user-account-car'>
                                         <h4><AiFillCar></AiFillCar> Автомобили </h4>
                                         <div>
-                                            {cars.map((car) =>
-                                                <div key={car.id + 1} className='client-car'
-                                                >
-                                                    <div className='col-car-number'>
-                                                        <div className='car-table-number'>
-                                                            <div className='flag-and-country'>
-                                                                <img
-                                                                    src={process.env.REACT_APP_API_URL + 'flag.jpg'}
-                                                                    alt="belarusian flag"
-                                                                    className='car-flag'
-                                                                />
-                                                                <div className='car-country'>BY</div>
+                                            {
+                                                cars.map((car) =>
+                                                    <div key={car.id + 1} className='client-car'
+                                                    >
+                                                        <div className='col-car-number'>
+                                                            <div className='car-table-number'>
+                                                                <div className='flag-and-country'>
+                                                                    <img
+                                                                        src={process.env.REACT_APP_API_URL + 'flag.jpg'}
+                                                                        alt="belarusian flag"
+                                                                        className='car-flag'
+                                                                    />
+                                                                    <div className='car-country'>BY</div>
+                                                                </div>
+                                                                <div className="number">{car.number}</div>
                                                             </div>
-                                                            <div className="number">{car.number}</div>
                                                         </div>
-                                                    </div>
-                                                    <div className='car-info'>
-                                                        <div className='car-brand'> {brands.map((brand) =>
-                                                            brand.id === car.carBrandId ?
-                                                                brand.name :
-                                                                ''
-                                                        )}</div>
-                                                        <div className='year-release'> {car.yearRelease}</div>
-                                                        <div className='car-body'>{bodies.map((body) =>
-                                                            body.id === car.bodyId ?
-                                                                body.name :
-                                                                ''
-                                                        )}</div>
-                                                    </div>
+                                                        <div className='car-info'>
+                                                            <div className='car-brand'> {brands.map((brand) =>
+                                                                brand.id === car.carBrandId ?
+                                                                    brand.name :
+                                                                    ''
+                                                            )}</div>
+                                                            <div className='year-release'> {car.yearRelease}</div>
+                                                            <div className='car-body'>{bodies.map((body) =>
+                                                                body.id === car.bodyId ?
+                                                                    body.name :
+                                                                    ''
+                                                            )}</div>
+                                                        </div>
 
-                                                    <Button
-                                                        className='btn car-remove'
-                                                        variant='btn btn-danger'
-                                                        onClick={() => removeUserCar(car.id)}
-                                                    >X</Button>
-                                                </div>
-                                            )}
+                                                        <Button
+                                                            className='btn car-remove'
+                                                            variant='btn btn-danger'
+                                                            onClick={() => removeUserCar(car.id)}
+                                                        >X</Button>
+                                                    </div>)
+                                                
+                                            }
                                             <MyModal
                                                 visible={modal}
                                                 setVisible={setModal}
                                             >
-                                                <CarForm 
+                                                <CarForm
                                                     create={createCarByModal}
                                                 />
                                             </MyModal>

@@ -35,7 +35,7 @@ const ClientForm = observer(() => {
 
   return (
     <div className='mt-5 client-form'>
-      <h3 className='mt-3'>Дополните информацию о Вас</h3>
+      <h3 className='mt-3'>Дополните информацию о вас</h3>
       Ваше имя
       <Form.Control
         type="text"

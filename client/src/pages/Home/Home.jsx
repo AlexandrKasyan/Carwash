@@ -7,15 +7,15 @@ const Home = () => {
 
     return (
         <div className="wrap-home mt-5">
-            <h3 style={{textAlign: 'center', margin: '5rem 0 2rem ', lineHeight: '3rem'}}>
-                <div>Web-приложение для сети автомоек</div>
-                <div>Исполнитель: Касьян Александр </div>
+            <h3 style={{ textAlign: 'center', margin: '5rem 0 2rem ', lineHeight: '3rem' }}>
+                <div>Web-приложение для работы с клиентами сети автомоек</div>
+
             </h3>
-            <div className="our-advantages">
+            {/* <div className="our-advantages">
                 <Container>
                     <h2 className="our-advantages">Наши преимущества</h2>
                 </Container>
-            </div>
+            </div> */}
             <Container >
                 <div className="advantages-fact">
                     <div className="list-fact">
@@ -37,6 +37,7 @@ const Home = () => {
                                 качественного обслуживания.
                             </div>
                         </div>
+
                         <div className="fact">
                             <img
                                 className="img-lable-fact"
@@ -47,6 +48,7 @@ const Home = () => {
                                 и внимательны к мелочам.
                             </div>
                         </div>
+
                         <div className="fact">
                             <img
                                 className="img-lable-fact"
@@ -61,6 +63,17 @@ const Home = () => {
                     <img className="img-fact" src="IMG_5861.webp" alt="Ручная автомойка" />
 
                 </div>
+
+
+            </Container>
+            <div className="our-advantages">
+                <Container>
+                    <h4 className="fake-footer">Исполнитель: Касьян Александр</h4>
+                </Container>
+            </div>
+
+            <Container>
+
                 <div className="advantages-fact">
                     <img className="img-fact" src="image-29-08-20-11-57.webp" alt="Ручная автомойка" />
                     <div className="list-fact">

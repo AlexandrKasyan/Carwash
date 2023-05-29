@@ -20,7 +20,7 @@ const PostForm = ({ create, roles, washes }) => {
                 <h5
                     style={{
                         textAlign: 'center'
-                    }}>Добаление пользователя</h5>
+                    }}>Добавление пользователя</h5>
                 <div id='error-box'
                     className='mb-2'
                     style={

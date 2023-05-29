@@ -79,7 +79,7 @@ const CarForm = ({ create }) => {
                     </Dropdown.Menu>
                 </Dropdown>
 
-                <Button onClick={addNewPost}>Create</Button>
+                <Button onClick={addNewPost}>Добавить</Button>
             </form>
         </div>
     );

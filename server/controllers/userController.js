@@ -40,7 +40,7 @@ class UserController {
     const { role } = await Role.findOne({ where: { id: user.roleId } });
     let comparePassword = bcrypt.compareSync(password, user.password)
     if (!comparePassword) {
-      return next(ApiError.badRequest("Не корректно введен пароль"))
+      return next(ApiError.badRequest("Неверно указан пароль"))
     }
     const token = generateJwt(user.id, user.email, role, user.carWashId, user.createdAt)
     return res.json({ token })

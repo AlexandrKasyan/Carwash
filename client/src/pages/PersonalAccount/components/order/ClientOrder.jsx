@@ -186,8 +186,8 @@ const ClientOrder = observer(() => {
 
                           order.services.map((service) =>
                             <div key={service.id + 1}>
-                              <div>{service.name}</div>
-                              <div>{service.cost}</div>
+                              <div>{service.name} {service.cost}р.</div>
+                              
                             </div>
                           )
                         }
